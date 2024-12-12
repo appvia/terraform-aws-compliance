@@ -4,17 +4,79 @@
 # to build your own root module that invokes this module
 #####################################################################################
 
+#
+## Guardduty configuration - note this service is regional and is thus required to be
+## provisioned in each region that requires it
+#
+
+locals {
+  tags = {
+    Environment = "Development"
+    Owner       = "Engineering"
+    Product     = "LandingZone"
+    Provisioner = "Terraform"
+  }
+}
+
+## Find the guardduty detector if it exists
+data "aws_guardduty_detector" "guardduty" {
+  provider = aws.audit_eu_west_2
+}
+
+module "guardduty_home" {
+  source = "../../modules/guardduty"
+
+  auto_enable_mode             = "ALL"
+  finding_publishing_frequency = "FIFTEEN_MINUTES"
+  guardduty_detector_id        = data.aws_guardduty_detector.guardduty.id
+  tags                         = local.tags
+
+  providers = {
+    aws = aws.audit_eu_west_2
+  }
+}
+
+module "guardduty_us_east_1" {
+  source = "../../modules/guardduty"
+
+  auto_enable_mode             = "ALL"
+  finding_publishing_frequency = "FIFTEEN_MINUTES"
+  tags                         = local.tags
+
+  providers = {
+    aws = aws.audit_us_east_1
+  }
+}
+
 module "compliance" {
   source = "../.."
 
+  region = "eu-west-2"
+  config = null
+  tags   = local.tags
+
   securityhub = {
+    aggregator = {
+      create            = true
+      linking_mode      = "ALL_REGIONS"
+      specified_regions = ["eu-west-2", "us-east-1"]
+    }
+
+    configuration = {
+      auto_enable           = false
+      auto_enable_standards = "NONE"
+      organization_configuration = {
+        configuration_type = "CENTRAL"
+      }
+    }
+
     policies = {
       "lza-foundational" = {
-        service_enable = true
-        description    = "LZA Foundational Security Hub Policy, applied to all accounts"
+        enable      = true
+        description = "LZA Foundational Security Hub Policy, applied to all accounts"
 
         associations = [
-          { organization_unit = "ou-123456789012" }
+          { organization_unit = "r-h53v" }
         ]
 
         policy = {
@@ -45,7 +107,6 @@ module "compliance" {
               "IAM.1",            # (IAM "*" administrative privileges) - not required, too many false positives
               "IAM.21",           # (Wildcard IAM) - not required, too many false positives
               "IAM.6",            # (Hardware MFA)- not required due to identity central and sso
-              "IAM.9",            # (Root MFA) - not required, enforced by SCP
               "Inspector.1",      # (inspector ec2) - not required
               "Inspector.2",      # (inspector ec2) - not required
               "Inspector.3",      # (inspector lambda) - not required
@@ -59,7 +120,6 @@ module "compliance" {
               "RDS.5",            # (RDS Multi-AZ) - enabled in production workloads only)
               "RDS.6",            # (RDS Enhanced monitoring) - enabled in production workloads only)
               "RDS.7",            # (RDS Deletion Protection) - IaC + review and approval
-              "S3.10",            # (Versioning enabled) - enabled per organization unit (prod, infra, security, deployments)
               "S3.13",            # (Lifecycle policies enabled) - IaC + review and approval
               "S3.5",             # (TLS in resource policy) - not required, enforced by SCP globally
               "S3.9",             # (Logging enabled) - IaC + review and approval

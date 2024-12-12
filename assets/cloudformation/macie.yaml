@@ -1,0 +1,10 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Enable Amazon Macie for the specificed regions
+
+Resources:
+  MacieSession:
+    Type: "AWS::Macie::Session"
+    Properties:
+      FindingPublishingFrequency: "{{ frequency }}"
+      Status: "{{ status }}"

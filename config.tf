@@ -1,10 +1,7 @@
-#
-## Related to organizational configuration
-#
 
 ## Provision one or more organization managed rules for the config service
 resource "aws_config_organization_managed_rule" "current" {
-  for_each = var.config.managed_rules
+  for_each = try(var.config.managed_rules, toset([]))
 
   description          = each.value.description
   input_parameters     = each.value.input_parameters

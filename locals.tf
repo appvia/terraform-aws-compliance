@@ -16,16 +16,23 @@ locals {
   policy_associations_all = flatten([
     for policy_name, policy in var.securityhub.policies : [
       for association in policy.associations : {
-        key             = format("%s-%s", policy_name, coalesce(association.account_id, association.organization_unit))
-        policy_name     = policy_name
-        account_id      = association.account_id
-        organization_id = association.organization_unit
+        key       = format("%s-%s", policy_name, coalesce(association.account_id, association.organization_unit))
+        policy    = policy_name
+        target_id = coalesce(association.account_id, association.organization_unit)
       }
-    ] if(policy.associations) > 0
+    ] if length(policy.associations) > 0
   ])
 
   ## A map of policy associations by policy name
   policy_associations_by_policy = {
-    for association in local.policy_associations_all : association.policy_name => association
+    for association in local.policy_associations_all : association.key => {
+      target_id = association.target_id
+      policy    = association.policy
+    }
+  }
+
+  ## A map of all the policies to the central configuration arns
+  policy_standards = {
+    for policy in aws_securityhub_configuration_policy.current : policy.name => policy.id
   }
 }
