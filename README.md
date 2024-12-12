@@ -15,19 +15,6 @@
 
 The purpose of this module to provide an opinionated way to configure compliance and security related services within an organizational landing zone. The module among other things configures AWS Security Hub, AWS Config, AWS Config Rules, AWS Config Aggregator and AWS Config Conformance Packs
 
-## Usage
-
-Add example usage here
-
-```hcl
-module "example" {
-  source  = "appvia/<NAME>/aws"
-  version = "0.0.1"
-
-  # insert variables here
-}
-```
-
 ## Update Documentation
 
 The `terraform-docs` utility is used to generate this README. Follow the below steps to update:
