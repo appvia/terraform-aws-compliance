@@ -6,12 +6,10 @@ variable "detectors" {
     # The name of the detector
     auto_enable = optional(string, "NONE")
     # The frequency of finding publishing
-    additional_configuration = optional(list(object({
-      name = string
-      # The name of the additional configuration
+    additional_configuration = optional(map(object({
       auto_enable = optional(string, "NONE")
       # The status of the additional configuration
-    })), [])
+    })), {})
   }))
   default = {
     s3 = {
@@ -26,30 +24,26 @@ variable "detectors" {
       # EKS_RUNTIME_MONITORING is deprecated and should thus be explicitly disabled
       auto_enable = "NONE"
       name        = "EKS_RUNTIME_MONITORING"
-      additional_configuration = [
-        {
+      additional_configuration = {
+        "EKS_ADDON_MANAGEMENT" = {
           auto_enable = "NONE"
-          name        = "EKS_ADDON_MANAGEMENT"
-        },
-      ]
+        }
+      }
     }
     runtime_monitoring = {
       auto_enable = "NONE"
       name        = "RUNTIME_MONITORING"
-      additional_configuration = [
-        {
+      additional_configuration = {
+        "EKS_ADDON_MANAGEMENT" = {
           auto_enable = "NONE"
-          name        = "EKS_ADDON_MANAGEMENT"
-        },
-        {
-          auto_enable = "NONE"
-          name        = "ECS_FARGATE_AGENT_MANAGEMENT"
-        },
-        {
-          auto_enable = "NONE"
-          name        = "EC2_AGENT_MANAGEMENT"
         }
-      ]
+        "EC2_AGENT_MANAGEMENT" = {
+          auto_enable = "NONE"
+        }
+        "ECS_FARGATE_AGENT_MANAGEMENT" = {
+          auto_enable = "NONE"
+        }
+      }
     }
     malware = {
       auto_enable = "NONE"

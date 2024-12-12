@@ -12,6 +12,7 @@
 locals {
   tags = {
     Environment = "Development"
+    GitRepo     = "https://github.com/appvia/lz-aws-compliance"
     Owner       = "Engineering"
     Product     = "LandingZone"
     Provisioner = "Terraform"
