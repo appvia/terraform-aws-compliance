@@ -25,29 +25,6 @@ variable "config" {
   }
 }
 
-variable "guardduty" {
-  description = "Oragnizational configuration for the AWS GuardDuty service"
-  type = object({
-    create = optional(bool, false)
-    # A flag indicating if GuardDuty should be created
-    finding_publishing_frequency = optional(string, "FIFTEEN_MINUTES")
-    # The frequency of finding publishing
-    detectors = optional(list(object({
-      name = string
-      # The name of the detector
-      enable = optional(bool, true)
-      # The frequency of finding publishing
-      additional_configuration = optional(list(object({
-        name = string
-        # The name of the additional configuration
-        enable = optional(bool, true)
-        # The status of the additional configuration
-      })), [])
-    })), [])
-  })
-  default = null
-}
-
 variable "macie" {
   description = "Configuration for the AWS Macie service"
   type = object({
