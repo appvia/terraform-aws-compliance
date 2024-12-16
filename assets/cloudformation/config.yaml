@@ -12,10 +12,16 @@ Resources:
       Source:
         Owner: AWS
         SourceIdentifier: ${rule.identifier}
+        %{ if length(rule.inputs) > 0 }
+        InputParameters:
+          %{ for key, value in rule.inputs }
+          "${key}": "${value}"
+          %{ endfor }
+        %{ endif }
       Scope:
         ComplianceResourceTypes:
           %{ for resource_type in rule.resource_types }
           - "${resource_type}"
-          %{ endfor }
+          %{ endfor -}
       MaximumExecutionFrequency: "${rule.max_execution_frequency}"
   %{ endfor }
