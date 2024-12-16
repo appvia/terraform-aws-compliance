@@ -11,10 +11,9 @@ module "config_rule_groups" {
   exclude_accounts     = each.value.exclude_accounts
   organizational_units = each.value.associations
   tags                 = var.tags
-  template             = file("${path.module}/assets/cloudformation/config.yaml")
 
-  parameters = {
+  template = templatefile("${path.module}/assets/cloudformation/config.yaml", {
     "name"  = each.key
     "rules" = each.value.rules
-  }
+  })
 }
