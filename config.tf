@@ -7,14 +7,14 @@ module "config_rule_groups" {
 
   name                 = format("%s-%s", var.config.stackset_name_prefix, lower(each.key))
   description          = format("Used to configure and distribute the AWS Config rules for %s", each.key)
-  enabled_regions      = each.value.enabled_regions
+  enabled_regions      = try(each.value.enabled_regions, null)
   exclude_accounts     = each.value.exclude_accounts
   organizational_units = each.value.associations
   tags                 = var.tags
   template             = file("${path.module}/assets/cloudformation/config.yaml")
 
   parameters = {
-    name  = each.key
-    rules = each.value.rules
+    "name"  = each.key
+    "rules" = each.value.rules
   }
 }

@@ -8,6 +8,8 @@ variable "config" {
       associations = list(string)
       # List of organizational units to deploy the managed rules
       description = string
+      # List of regions to enable these rules
+      enabled_regions = optional(list(string), null)
       # A map of rules contained and deployed from this rule group
       rules = map(object({
         # The description of the organization managed rules
