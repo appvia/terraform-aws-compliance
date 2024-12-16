@@ -1,12 +1,20 @@
 
-## Provision one or more organization managed rules for the config service
-resource "aws_config_organization_managed_rule" "current" {
-  for_each = try(var.config.managed_rules, toset([]))
+## Provision and distribute the stacksets to the appropriate accounts
+module "config_rule_groups" {
+  for_each = var.config.rule_groups
+  source   = "appvia/stackset/aws"
+  version  = "0.1.6"
 
-  description          = each.value.description
-  input_parameters     = each.value.input_parameters
-  name                 = each.key
-  resource_id_scope    = each.value.resource_id_scope
-  resource_types_scope = each.value.resource_types_scope
-  rule_identifier      = each.value.rule_identifier
+  name                 = format("%s-%s", var.config.stackset_name_prefix, lower(each.key))
+  description          = format("Used to configure and distribute the AWS Config rules for %s", each.key)
+  enabled_regions      = each.value.enabled_regions
+  exclude_accounts     = each.value.exclude_accounts
+  organizational_units = each.value.associations
+  tags                 = var.tags
+  template             = file("${path.module}/assets/cloudformation/config.yaml")
+
+  parameters = {
+    name  = each.key
+    rules = each.value.rules
+  }
 }

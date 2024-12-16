@@ -1,0 +1,21 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Used to distribute the managed config rules to for "${name}" rule group
+
+Resources:
+  %{ for name, rule in rules ~}${name}:
+    Type: "AWS::Config::ConfigRule"
+    Properties:
+      ConfigRuleName: ${name}
+      Description: ${rule.description}
+      Source:
+        Owner: AWS
+        SourceIdentifier: ${rule.identifier}
+      %{ if length(rule.inputs) > 0 }InputParameters:
+          %{ for key, value in rule.inputs }${key}: "${value}"%{ endfor }
+      %{ endif }
+      Scope:
+        ComplianceResourceTypes:
+          %{ for resource_type in rule.resource_types }- "${resource_type}"%{ endfor }
+      MaximumExecutionFrequency: "${rule.max_execution_frequency}"
+  %{ endfor ~}

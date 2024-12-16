@@ -2,26 +2,30 @@
 variable "config" {
   description = "Configuration for the securityhub organization managed rules"
   type = object({
-    managed_rules = optional(map(object({
+    stackset_name_prefix = optional(string, "lza-config-")
+    # The prefix added to the stacksets
+    rule_groups = optional(map(object({
+      associations = list(string)
+      # List of organizational units to deploy the managed rules
       description = string
-      # The description of the organization managed rules
-      rule_identifier = string
-      # The identifier of the organization managed rule
-      excluded_accounts = optional(list(string), null)
-      # The list of accounts to exclude from the organization managed rule
-      input_parameters = optional(string, null)
-      # A string in JSON format that is passed to the AWS Config Rule Lambda Function
-      rule_identifier_scope = string
-      # The identifier of the organization managed rule scope
-      resource_id_scope = optional(string, null)
-      # The identifier of the organization managed rule scope
-      resource_types_scope = optional(list(string), null)
-      # The list of resource types to scope the organization managed rule
+      # A map of rules contained and deployed from this rule group
+      rules = map(object({
+        # The description of the organization managed rules
+        identifier = string
+        # The identifier of the organization managed rule
+        excluded_accounts = optional(list(string), null)
+        # The list of accounts to exclude from the organization managed rule
+        inputs = optional(map(string), {})
+        # The identifier of the organization managed rule scope
+        resource_types = list(string)
+        # The list of resource types to scope the organization managed rule
+        max_execution_frequency = optional(string, "TwentyFour_Hours")
+      }))
     })), {})
     # The configuration for the securityhub organization managed rules
   })
   default = {
-    managed_rules = {}
+    rule_groups = {}
   }
 }
 
