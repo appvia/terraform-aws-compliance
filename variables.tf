@@ -11,12 +11,12 @@ variable "config" {
       # List of regions to enable these rules
       enabled_regions = optional(list(string), null)
       # A map of rules contained and deployed from this rule group
+      excluded_accounts = optional(list(string), null)
+      # The list of accounts to exclude from the organization managed rule
       rules = map(object({
         # The description of the organization managed rules
         identifier = string
         # The identifier of the organization managed rule
-        excluded_accounts = optional(list(string), null)
-        # The list of accounts to exclude from the organization managed rule
         inputs = optional(map(string), {})
         # The identifier of the organization managed rule scope
         resource_types = list(string)
