@@ -14,11 +14,11 @@ Resources:
         %{ if length(rule.inputs) > 0 }
         InputParameters:
           %{ for key, value in rule.inputs }
-          ${key}: "${value}"
+          "${key}": "${value}"
           %{ endfor }
         %{ endif }
       Scope:
         ComplianceResourceTypes:
           %{ for resource_type in rule.resource_types }- "${resource_type}"%{ endfor }
       MaximumExecutionFrequency: "${rule.max_execution_frequency}"
-  %{ endfor ~}
+  %{ endfor }
