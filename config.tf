@@ -13,7 +13,8 @@ module "config_rule_groups" {
   tags                 = var.tags
 
   template = templatefile("${path.module}/assets/cloudformation/config.yaml", {
-    "name"  = each.key
-    "rules" = each.value.rules
+    "name"        = each.key
+    "descruption" = each.value.description
+    "rules"       = each.value.rules
   })
 }
