@@ -15,8 +15,9 @@ module "config_rule_groups" {
   tags                 = var.tags
 
   template = templatefile("${path.module}/assets/cloudformation/config.yaml", {
-    "name"        = each.key
-    "descruption" = each.value.description
-    "rules"       = each.value.rules
+    "description"   = each.value.description
+    "name"          = each.key
+    "resource_name" = upper(replace(each.key, "-", ""))
+    "rules"         = each.value.rules
   })
 }
