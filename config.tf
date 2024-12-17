@@ -3,9 +3,10 @@
 module "config_rule_groups" {
   for_each = var.config.rule_groups
   source   = "appvia/stackset/aws"
-  version  = "0.1.6"
+  version  = "0.1.7"
 
   name                 = format("%s%s", var.config.stackset_name_prefix, lower(each.key))
+  call_as              = "DELEGATED_ADMIN"
   description          = format("Used to configure and distribute the AWS Config rules for %s", each.key)
   enabled_regions      = try(each.value.enabled_regions, null)
   exclude_accounts     = each.value.exclude_accounts
