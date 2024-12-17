@@ -4,7 +4,7 @@ Description: Used to distribute the managed config rules to for "${name}" rule g
 
 Resources:
   %{ for name, rule in rules }
-  ${name}:
+  ${resource_name}:
     Type: "AWS::Config::ConfigRule"
     Properties:
       ConfigRuleName: ${name}
