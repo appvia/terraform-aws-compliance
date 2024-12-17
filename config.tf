@@ -6,11 +6,12 @@ module "config_rule_groups" {
   version  = "0.1.7"
 
   name                 = format("%s%s", var.config.stackset_name_prefix, lower(each.key))
-  call_as              = "DELEGATED_ADMIN"
   description          = format("Used to configure and distribute the AWS Config rules for %s", each.key)
+  call_as              = "DELEGATED_ADMIN"
   enabled_regions      = try(each.value.enabled_regions, null)
   exclude_accounts     = each.value.exclude_accounts
   organizational_units = each.value.associations
+  permission_model     = "SERVICE_MANAGED"
   tags                 = var.tags
 
   template = templatefile("${path.module}/assets/cloudformation/config.yaml", {
