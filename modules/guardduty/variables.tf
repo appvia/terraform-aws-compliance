@@ -1,10 +1,4 @@
 
-variable "create" {
-  description = "Indicates if we should create a GuardDuty detector"
-  type        = bool
-  default     = false
-}
-
 variable "detectors" {
   description = "The configuration for the GuardDuty detectors"
   type = map(object({
