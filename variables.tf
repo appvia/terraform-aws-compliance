@@ -22,7 +22,7 @@ variable "config" {
         # The identifier of the organization managed rule scope
         resource_types = list(string)
         # The list of resource types to scope the organization managed rule
-        max_execution_frequency = optional(string, "TwentyFour_Hours")
+        max_execution_frequency = optional(string, null)
         # The max_execution_frequency of the rule
       }))
     })), {})
