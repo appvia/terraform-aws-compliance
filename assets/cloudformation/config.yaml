@@ -21,7 +21,7 @@ Resources:
         ComplianceResourceTypes:
           %{ for resource_type in rule.resource_types }
           - "${resource_type}"%{ endfor }
-      %{ if rule.max_execution_frequency }
+      %{ if rule.max_execution_frequency != null }
       MaximumExecutionFrequency: "${rule.max_execution_frequency}"
       %{ endif }
   %{ endfor }
