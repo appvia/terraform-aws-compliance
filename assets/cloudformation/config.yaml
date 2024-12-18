@@ -1,10 +1,10 @@
 ---
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Used to distribute the managed config rules to for "${name}" rule group
+Description: Used to distribute the managed config rules to for "${rule_group_name}" rule group
 
 Resources:
   %{ for name, rule in rules }
-  ${resource_name}:
+  ${format("%s_%s", replace(upper(rule_group_name), "-", "_")),replace(upper(name), "-", "_")}:
     Type: "AWS::Config::ConfigRule"
     Properties:
       ConfigRuleName: ${name}
