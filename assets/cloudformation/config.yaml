@@ -4,7 +4,7 @@ Description: Used to distribute the managed config rules to for "${rule_group_na
 
 Resources:
   %{ for name, rule in rules }
-  ${format("%s", replace(upper(name), "-", ""))}:
+  ${format("%s", join("", [for word in split("-", name) : title(word)]))}
     Type: "AWS::Config::ConfigRule"
     Properties:
       ConfigRuleName: ${name}
