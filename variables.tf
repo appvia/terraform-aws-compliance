@@ -33,6 +33,18 @@ variable "config" {
   }
 }
 
+variable "access_analyzer" {
+  description = "Configuration for the AWS Access Analyzer service"
+  type = object({
+    enable_unused_analyzer = optional(bool, true)
+    # Indicates whether to enable the unused AWS Access Analyzer service
+    unused_analyzer_name = optional(string, "lza-unused-access-analyzer")
+    # The name of the unused AWS Access Analyzer service
+    unused_access_age = optional(number, 90)
+  })
+  default = null
+}
+
 variable "macie" {
   description = "Configuration for the AWS Macie service"
   type = object({
