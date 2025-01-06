@@ -40,13 +40,16 @@ variable "detectors" {
       auto_enable = "NONE"
       name        = "RUNTIME_MONITORING"
       additional_configuration = {
-        "EC2_AGENT_MANAGEMENT" = {
+        "EKS_ADDON_MANAGEMENT" = {
+          name = "EKS_ADDON_MANAGEMENT"
           auto_enable = "NONE"
         }
         "ECS_FARGATE_AGENT_MANAGEMENT" = {
+          name = "ECS_FARGATE_AGENT_MANAGEMENT"
           auto_enable = "NONE"
         }
-        "EKS_ADDON_MANAGEMENT" = {
+        "EC2_AGENT_MANAGEMENT" = {
+          name = "EC2_AGENT_MANAGEMENT"
           auto_enable = "NONE"
         }
       }
