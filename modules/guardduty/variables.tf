@@ -13,7 +13,6 @@ variable "detectors" {
     auto_enable = optional(string, "NONE")
     # The frequency of finding publishing
     additional_configuration = optional(map(object({
-      name = optional(string, "NONE")
       auto_enable = optional(string, "NONE")
       # The status of the additional configuration
     })), {})
@@ -42,15 +41,12 @@ variable "detectors" {
       name        = "RUNTIME_MONITORING"
       additional_configuration = {
         "EKS_ADDON_MANAGEMENT" = {
-          name = "EKS_ADDON_MANAGEMENT"
-          auto_enable = "NONE"
-        }
-        "ECS_FARGATE_AGENT_MANAGEMENT" = {
-          name = "ECS_FARGATE_AGENT_MANAGEMENT"
           auto_enable = "NONE"
         }
         "EC2_AGENT_MANAGEMENT" = {
-          name = "EC2_AGENT_MANAGEMENT"
+          auto_enable = "NONE"
+        }
+        "ECS_FARGATE_AGENT_MANAGEMENT" = {
           auto_enable = "NONE"
         }
       }
