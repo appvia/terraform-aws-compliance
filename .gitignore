@@ -32,6 +32,7 @@ terraform.rc
 # Other
 .DS_Store
 todo.md
+.idea
 
 # Ignore vim swap files
 *.swp
