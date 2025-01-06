@@ -46,9 +46,9 @@ variable "detectors" {
         "ECS_FARGATE_AGENT_MANAGEMENT" = {
           auto_enable = "NONE"
         }
-      }
-      "EKS_ADDON_MANAGEMENT" = {
-        auto_enable = "NONE"
+        "EKS_ADDON_MANAGEMENT" = {
+          auto_enable = "NONE"
+        }
       }
     }
     malware = {
