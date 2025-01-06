@@ -13,6 +13,7 @@ variable "detectors" {
     auto_enable = optional(string, "NONE")
     # The frequency of finding publishing
     additional_configuration = optional(map(object({
+      name = optional(string, "NONE")
       auto_enable = optional(string, "NONE")
       # The status of the additional configuration
     })), {})
