@@ -37,9 +37,7 @@ resource "aws_guardduty_organization_configuration_feature" "this" {
 
   lifecycle {
     ignore_changes = [
-      additional_configuration[0].name,
-      additional_configuration[1].name,
-      additional_configuration[2].name
+      additional_configuration[*].name
     ]
   }
 
