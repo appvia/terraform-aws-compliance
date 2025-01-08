@@ -12,7 +12,15 @@ variable "detectors" {
     # The name of the detector
     auto_enable = optional(string, "NONE")
     # The frequency of finding publishing
-    additional_configuration = optional(map(object({
+    eks_additional_configuration = optional(map(object({
+      auto_enable = optional(string, "NONE")
+      # The status of the additional configuration
+    })), {})
+    ecs_additional_configuration = optional(map(object({
+      auto_enable = optional(string, "NONE")
+      # The status of the additional configuration
+    })), {})
+    ec2_additional_configuration = optional(map(object({
       auto_enable = optional(string, "NONE")
       # The status of the additional configuration
     })), {})
@@ -30,7 +38,7 @@ variable "detectors" {
       # EKS_RUNTIME_MONITORING is deprecated and should thus be explicitly disabled
       auto_enable = "NONE"
       name        = "EKS_RUNTIME_MONITORING"
-      additional_configuration = {
+      eks_additional_configuration = {
         "EKS_ADDON_MANAGEMENT" = {
           auto_enable = "NONE"
         }
@@ -39,14 +47,18 @@ variable "detectors" {
     runtime_monitoring = {
       auto_enable = "NONE"
       name        = "RUNTIME_MONITORING"
-      additional_configuration = {
+      eks_additional_configuration = {
+        "EKS_ADDON_MANAGEMENT" = {
+          auto_enable = "NONE"
+        }
+      }
+      ecs_additional_configuration = {
         "ECS_FARGATE_AGENT_MANAGEMENT" = {
           auto_enable = "NONE"
         }
+      }
+      ec2_additional_configuration = {
         "EC2_AGENT_MANAGEMENT" = {
-          auto_enable = "NONE"
-        }
-        "EKS_ADDON_MANAGEMENT" = {
           auto_enable = "NONE"
         }
       }

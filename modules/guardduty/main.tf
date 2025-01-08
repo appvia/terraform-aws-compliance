@@ -28,20 +28,28 @@ resource "aws_guardduty_organization_configuration_feature" "this" {
   name        = each.value.name
 
   dynamic "additional_configuration" {
-    for_each = try(each.value.additional_configuration, {})
+    for_each = try(each.value.ecs_additional_configuration, {})
     content {
       auto_enable = additional_configuration.value.auto_enable
       name        = additional_configuration.key
     }
   }
 
-  # lifecycle {
-  #   ignore_changes = [
-  #     additional_configuration[0].name,
-  #     additional_configuration[1].name,
-  #     additional_configuration[2].name
-  #   ]
-  # }
+  dynamic "additional_configuration" {
+    for_each = try(each.value.ec2_additional_configuration, {})
+    content {
+      auto_enable = additional_configuration.value.auto_enable
+      name        = additional_configuration.key
+    }
+  }
+
+  dynamic "additional_configuration" {
+    for_each = try(each.value.eks_additional_configuration, {})
+    content {
+      auto_enable = additional_configuration.value.auto_enable
+      name        = additional_configuration.key
+    }
+  }
 
   depends_on = [
     aws_guardduty_organization_configuration.guardduty,
