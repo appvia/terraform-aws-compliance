@@ -33,6 +33,30 @@ variable "config" {
   }
 }
 
+variable "notifications" {
+  description = "Configuration for the notifications"
+  type = object({
+    email = optional(object({
+      addresses = optional(list(string), [])
+    }), null)
+    slack = optional(object({
+      lamdba_name = optional(string, "lz-securityhub-all-notifications-slack")
+      webhook_url = string
+    }), null)
+    teams = optional(object({
+      lamdba_name = optional(string, "lz-securityhub-all-notifications-teams")
+      webhook_url = string
+    }), null)
+  })
+  default = {
+    email = {
+      addresses = []
+    }
+    slack = null
+    teams = null
+  }
+}
+
 variable "access_analyzer" {
   description = "Configuration for the AWS Access Analyzer service"
   type = object({
@@ -102,6 +126,22 @@ variable "securityhub" {
       }
     })
     # The configuration for the securityhub
+    notifications = optional(object({
+      enable = optional(bool, false)
+      # Indicates whether to enable the securityhub notifications
+      eventbridge_rule_name = optional(string, "lza-securityhub-all-notifications")
+      # The name of the event bridge rule
+      severities = optional(list(string), ["CRITICAL", "HIGH"])
+      # The list of severities to enable the notifications
+      sns_topic_queue_name = optional(string, "lza-securityhub-all-notifications")
+      # Name of the SNS topic to send the notifications
+      }), {
+      enable                = false
+      eventbridge_rule_name = "lza-securityhub-all-notifications"
+      severities            = []
+      sns_topic_queue_name  = "lza-securityhub-all-notifications"
+    })
+    # The configuration for the notifications
     policies = optional(map(object({
       enable = optional(bool, true)
       # Indicates whether the configuration policy is enabled

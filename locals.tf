@@ -2,6 +2,13 @@
 locals {
   ## The current region
   region = data.aws_region.current.name
+  ## Tag applied to all resources
+  tags = merge(var.tags, {})
+
+  ## Determine if the macie service is managed by the landing zone
+  analyzer_enabled = var.access_analyzer != null
+  ## Determine if the macie service is managed by the landing zone
+  macie_enabled = var.macie != null
 
   ## The subscription for the standards
   standards_subscription = {
@@ -34,5 +41,28 @@ locals {
   ## A map of all the policies to the central configuration arns
   policy_standards = {
     for policy in aws_securityhub_configuration_policy.current : policy.name => policy.id
+  }
+
+  #
+  ## Notifications related
+
+  ## Indicates if the notifications for slack are enabled
+  enable_slack_notifications = var.notifications.slack != null
+  ## Indicates if the notifications for teams are enabled
+  enable_teams_notifications = var.notifications.teams != null
+
+  ## The configuration for the slack notification
+  slack = local.enable_slack_notifications ? {
+    lambda_name = try(var.notifications.slack.lambda_name, null)
+    webhook_url = try(var.notifications.slack.webhook_url, null)
+  } : null
+
+  teams = local.enable_teams_notifications ? {
+    lambda_name = try(var.notifications.teams.lambda_name, null)
+    webhook_url = try(var.notifications.teams.webhook_url, null)
+  } : null
+
+  email = {
+    addresses = try(var.notifications.email.addresses, [])
   }
 }

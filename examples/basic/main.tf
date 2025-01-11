@@ -53,6 +53,13 @@ module "compliance" {
   source = "../.."
 
   region = "eu-west-2"
+
+  notifications = {
+    slack = {
+      webhook_url = "https://hooks"
+    }
+  }
+
   config = {
     rule_groups = {
       root = {
@@ -108,6 +115,12 @@ module "compliance" {
   tags = local.tags
 
   securityhub = {
+    notifications = {
+      enable         = true
+      severities     = ["HIGH", "CRITICAL"]
+      sns_queue_name = "lza-securityhub-all-notifications"
+    }
+
     aggregator = {
       create            = true
       linking_mode      = "ALL_REGIONS"
