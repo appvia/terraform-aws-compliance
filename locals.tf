@@ -33,8 +33,8 @@ locals {
   ## A map of policy associations by policy name
   policy_associations_by_policy = {
     for association in local.policy_associations_all : association.key => {
-      target_id = association.target_id
       policy    = association.policy
+      target_id = association.target_id
     }
   }
 
