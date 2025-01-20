@@ -4,7 +4,7 @@
 module "config_rule_groups" {
   for_each = var.config.rule_groups
   source   = "appvia/stackset/aws"
-  version  = "0.1.9"
+  version  = "0.1.10"
 
   name                 = format("%s%s", var.config.stackset_name_prefix, lower(each.key))
   description          = format("Used to configure and distribute the AWS Config rules for %s", each.key)
@@ -28,7 +28,7 @@ module "config_rule_groups" {
 module "macie" {
   count   = local.macie_enabled ? 1 : 0
   source  = "appvia/stackset/aws"
-  version = "0.1.9"
+  version = "0.1.10"
 
   name             = try(var.macie.stackset_name, null)
   description      = "Configuration for the AWS macie service, configured by the landing zone"
