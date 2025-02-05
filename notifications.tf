@@ -46,9 +46,13 @@ resource "aws_cloudwatch_event_rule" "securityhub_findings" {
   count = var.securityhub.notifications.enable ? 1 : 0
 
   name          = var.securityhub.notifications.eventbridge_rule_name
-  description   = format("Capture Security Hub findings and publish to the SNS topic: %s", try(module.securityhub_notifications[0].sns_topic_name, null))
+  description   = format("Capture Security Hub findings and publish to the SNS topic: %s", var.securityhub.notifications.sns_topic_queue_name)
   event_pattern = local.securityhub_event_pattern
   tags          = local.tags
+
+  depends_on = [
+    module.securityhub_notifications
+  ]
 }
 
 ## Add the SNS Topic as a Target for the EventBridge Rule

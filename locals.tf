@@ -19,6 +19,14 @@ locals {
     pci_dss                         = "arn:aws:securityhub:${local.region}::standards/pci-dss/v/3.2.1"
   }
 
+  ## A list of resources type to enable for inspector
+  inspector_resources_types = [
+    var.inspector.enable_ec2_scan ? "EC2" : null,
+    var.inspector.enable_ecr_scan ? "ECR" : null,
+    var.inspector.enable_lambda_code_scan ? "LAMBDA_CODE" : null,
+    var.inspector.enable_lambda_scan ? "LAMBDA" : null,
+  ]
+
   ## A lost of policy associations
   policy_associations_all = flatten([
     for policy_name, policy in var.securityhub.policies : [

@@ -33,6 +33,27 @@ variable "config" {
   }
 }
 
+variable "inspector" {
+  description = "Organizational configuration for the AWS Inspector service"
+  type = object({
+    account_id = optional(string, null)
+    # The delegated administrator account ID for the AWS Inspector service
+    enable = optional(bool, false)
+    # Indicates whether to enable the AWS Inspector service
+    enable_ec2_scan = optional(bool, false)
+    # Indicates whether to enable the AWS Inspector service for EC2 instances
+    enable_ecr_scan = optional(bool, false)
+    # Indicates whether to enable the AWS Inspector service for ECR repositories
+    enable_lambda_scan = optional(bool, false)
+    # Indicates whether to enable the AWS Inspector service for Lambda functions
+    enable_lambda_code_scan = optional(bool, false)
+    # Indicates whether to enable the AWS Inspector service for Lambda code
+  })
+  default = {
+    enable = false
+  }
+}
+
 variable "notifications" {
   description = "Configuration for the notifications"
   type = object({
