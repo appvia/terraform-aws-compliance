@@ -47,5 +47,7 @@ The `terraform-docs` utility is used to generate this README. Follow the below s
 
 | Name | Description |
 |------|-------------|
+| <a name="output_inspector_resource_types"></a> [inspector\_resource\_types](#output\_inspector\_resource\_types) | A list of resources type to enable for inspector |
+| <a name="output_securityhub_policy_associations"></a> [securityhub\_policy\_associations](#output\_securityhub\_policy\_associations) | A map of policy associations by policy name |
 | <a name="output_securityhub_policy_configurations"></a> [securityhub\_policy\_configurations](#output\_securityhub\_policy\_configurations) | A map of all the policies to the central configuration arns |
 <!-- END_TF_DOCS -->

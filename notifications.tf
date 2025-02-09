@@ -21,6 +21,26 @@ locals {
     detail-type = ["Security Hub Findings - Imported"],
     source      = ["aws.securityhub"]
   })
+
+  ## Indicates if the notifications for slack are enabled
+  enable_slack_notifications = var.notifications.slack != null
+  ## Indicates if the notifications for teams are enabled
+  enable_teams_notifications = var.notifications.teams != null
+
+  ## The configuration for the slack notification
+  slack = local.enable_slack_notifications ? {
+    lambda_name = try(var.notifications.slack.lambda_name, null)
+    webhook_url = try(var.notifications.slack.webhook_url, null)
+  } : null
+
+  teams = local.enable_teams_notifications ? {
+    lambda_name = try(var.notifications.teams.lambda_name, null)
+    webhook_url = try(var.notifications.teams.webhook_url, null)
+  } : null
+
+  email = {
+    addresses = try(var.notifications.email.addresses, [])
+  }
 }
 
 ## Provision the notifications to forward the security hub findings to the messaging channel
