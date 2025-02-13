@@ -9,22 +9,27 @@ locals {
     pci_dss                         = "arn:aws:securityhub:${local.region}::standards/pci-dss/v/3.2.1"
   }
 
-  ## A lost of policy associations
+  ## A list of policy associations
   policy_associations_all = flatten([
     for policy_name, policy in var.securityhub.policies : [
       for association in policy.associations : {
-        key       = format("%s-%s", policy_name, coalesce(association.account_id, association.organization_unit))
-        policy    = policy_name
-        target_id = coalesce(association.account_id, association.organization_unit)
+        account             = association.account_id
+        key                 = format("%s-%s", policy_name, coalesce(association.account_id, association.organization_unit))
+        organizational_unit = association.organization_unit
+        policy_name         = policy_name
+        target_id           = coalesce(association.account_id, association.organization_unit)
       }
     ] if length(policy.associations) > 0
   ])
 
-  ## A map of policy associations by policy name
+  ## A map of all the policy associations by policy name
   policy_associations_by_policy = {
     for association in local.policy_associations_all : association.key => {
-      policy    = association.policy
-      target_id = association.target_id
+      account            = association.account
+      organization_units = association.organizational_unit
+      policy_key         = association.key
+      policy_name        = association.policy_name
+      target_id          = association.target_id
     }
   }
 
@@ -95,7 +100,7 @@ resource "aws_securityhub_configuration_policy" "current" {
 resource "aws_securityhub_configuration_policy_association" "current" {
   for_each = local.policy_associations_by_policy
 
-  policy_id = aws_securityhub_configuration_policy.current[each.value.policy].id
+  policy_id = aws_securityhub_configuration_policy.current[each.value.policy_name].id
   target_id = each.value.target_id
 
   depends_on = [aws_securityhub_configuration_policy.current]
