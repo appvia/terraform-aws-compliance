@@ -46,15 +46,12 @@ locals {
 ## Provision the notifications to forward the security hub findings to the messaging channel
 module "securityhub_notifications" {
   count   = var.securityhub.notifications.enable ? 1 : 0
-  source  = "appvia/notifications/aws"
-  version = "2.0.0"
+  source  = "appvia/notify/aws"
+  version = "0.0.5"
 
   allowed_aws_services           = ["events.amazonaws.com", "lambda.amazonaws.com"]
   cloudwatch_log_group_retention = 1
-  create_sns_topic               = true
   email                          = local.email
-  enable_slack                   = local.enable_teams_notifications
-  enable_teams                   = local.enable_slack_notifications
   slack                          = local.slack
   sns_topic_name                 = var.securityhub.notifications.sns_topic_queue_name
   tags                           = local.tags
