@@ -37,7 +37,7 @@ run "basic" {
     }
 
     config = {
-      rule_groups     = {
+      rule_groups = {
         root = {
           description = "Common managed rules distribued to all accounts"
           associations = [
