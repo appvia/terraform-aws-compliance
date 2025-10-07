@@ -21,8 +21,8 @@ module "config_rule_groups" {
   })
 }
 
-// the appvia stackset module does not run CloudFormation stacksets on the root account against an Organization
-//  - have to explicitly give the mgmt account id
+# the appvia stackset module does not run CloudFormation stacksets on the root account against an Organization
+#  - have to explicitly give the mgmt account id
 module "config_rule_groups_for_root_account" {
   for_each = var.config.rule_groups
   source   = "appvia/stackset/aws"
@@ -32,7 +32,7 @@ module "config_rule_groups_for_root_account" {
   description          = format("Used to configure and distribute the AWS Config rules for %s", each.key)
   call_as              = "DELEGATED_ADMIN"
   enabled_regions      = try(each.value.enabled_regions, null)
-  include_accounts     = each.value.include_accounts
+  include_accounts     = [ var.config.mgmt_account_id ]
   organizational_units = each.value.associations
   permission_model     = "SERVICE_MANAGED"
   tags                 = local.tags

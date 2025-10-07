@@ -110,6 +110,7 @@ module "compliance" {
         }
       }
     }
+    mgmt_account_id = "1234567890"
   }
 
   tags = local.tags
