@@ -33,7 +33,7 @@ module "config_rule_groups_for_root_account" {
   call_as              = "DELEGATED_ADMIN"
   enabled_regions      = try(each.value.enabled_regions, null)
   accounts             = [var.config.mgmt_account_id]
-  # organizational_units = each.value.associations
+  organizational_units = []
   permission_model     = "SERVICE_MANAGED"
   tags                 = local.tags
 
