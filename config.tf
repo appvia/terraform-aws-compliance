@@ -28,12 +28,12 @@ module "config_rule_groups_for_root_account" {
   source   = "appvia/stackset/aws"
   version  = "0.2.3"
 
-  name                 = format("%s%s", var.config.stackset_name_prefix, lower(each.key))
+  name                 = format("%smgmt-%s", var.config.stackset_name_prefix, lower(each.key))
   description          = format("Used to configure and distribute the AWS Config rules for %s", each.key)
   call_as              = "DELEGATED_ADMIN"
   enabled_regions      = try(each.value.enabled_regions, null)
   accounts             = [var.config.mgmt_account_id]
-  organizational_units = each.value.associations
+  # organizational_units = each.value.associations
   permission_model     = "SERVICE_MANAGED"
   tags                 = local.tags
 
