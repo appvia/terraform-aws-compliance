@@ -86,7 +86,7 @@ run "basic" {
           }
         }
       }
-      mgmt_account_id = "1234567890"
+      mgmt_account_id = "123456789012"
     }
 
     securityhub = {
