@@ -37,7 +37,7 @@ run "basic" {
     }
 
     config = {
-      rule_groups = {
+      rule_groups     = {
         root = {
           description = "Common managed rules distribued to all accounts"
           associations = [
@@ -86,6 +86,7 @@ run "basic" {
           }
         }
       }
+      mgmt_account_id = "1234567890"
     }
 
     securityhub = {
