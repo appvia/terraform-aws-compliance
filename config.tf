@@ -11,6 +11,7 @@ module "config_rule_groups" {
   enabled_regions      = try(each.value.enabled_regions, null)
   exclude_accounts     = each.value.exclude_accounts
   organizational_units = each.value.associations
+  accounts             = [var.config.mgmt_account_id]
   permission_model     = "SERVICE_MANAGED"
   tags                 = local.tags
 
@@ -23,23 +24,23 @@ module "config_rule_groups" {
 
 # the appvia stackset module does not run CloudFormation stacksets on the root account against an Organization
 #  - have to explicitly give the mgmt account id
-module "config_rule_groups_for_root_account" {
-  for_each = var.config.rule_groups
-  source   = "appvia/stackset/aws"
-  version  = "0.2.3"
+# module "config_rule_groups_for_root_account" {
+#   for_each = var.config.rule_groups
+#   source   = "appvia/stackset/aws"
+#   version  = "0.2.3"
 
-  name                 = format("%smgmt-%s", var.config.stackset_name_prefix, lower(each.key))
-  description          = format("Used to configure and distribute the AWS Config rules for %s", each.key)
-  call_as              = "DELEGATED_ADMIN"
-  enabled_regions      = try(each.value.enabled_regions, null)
-  accounts             = [var.config.mgmt_account_id]
-  # organizational_units = each.value.associations
-  permission_model     = "SERVICE_MANAGED"
-  tags                 = local.tags
+#   name                 = format("%smgmt-%s", var.config.stackset_name_prefix, lower(each.key))
+#   description          = format("Used to configure and distribute the AWS Config rules for %s", each.key)
+#   call_as              = "DELEGATED_ADMIN"
+#   enabled_regions      = try(each.value.enabled_regions, null)
+#   accounts             = [var.config.mgmt_account_id]
+#   # organizational_units = each.value.associations
+#   permission_model     = "SERVICE_MANAGED"
+#   tags                 = local.tags
 
-  template = templatefile("${path.module}/assets/cloudformation/config.yaml", {
-    "description"     = each.value.description
-    "rule_group_name" = each.key
-    "rules"           = each.value.rules
-  })
-}
+#   template = templatefile("${path.module}/assets/cloudformation/config.yaml", {
+#     "description"     = each.value.description
+#     "rule_group_name" = each.key
+#     "rules"           = each.value.rules
+#   })
+# }
