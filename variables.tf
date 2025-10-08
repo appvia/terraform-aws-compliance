@@ -30,7 +30,7 @@ variable "config" {
     # The configuration for the securityhub organization managed rules
   })
   default = {
-    rule_groups     = {}
+    rule_groups = {}
   }
 }
 

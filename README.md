@@ -721,3 +721,4 @@ The `terraform-docs` utility is used to generate this README. Follow the below s
 | <a name="output_securityhub_policy_associations"></a> [securityhub\_policy\_associations](#output\_securityhub\_policy\_associations) | A map of policy associations by policy name |
 | <a name="output_securityhub_policy_configurations"></a> [securityhub\_policy\_configurations](#output\_securityhub\_policy\_configurations) | A map of all the policies to the central configuration arns |
 <!-- END_TF_DOCS -->
+
