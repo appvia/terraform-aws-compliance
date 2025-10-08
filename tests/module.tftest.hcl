@@ -220,19 +220,20 @@ mock_provider "aws" {
     defaults = {
       assume_role = [
         {
-          json: >
+          json = <<EOP
             statement {
               sid    = "AllowAccountRoot"
               effect = "Allow"
               principals {
                 type        = "AWS"
-                identifiers = [format("arn:aws:iam::%s:root", local.account_id)]
+                identifiers = ["arn:aws:iam::123456789012:root"]
               }
               actions = [
                 "sns:Publish"
               ]
               resources = ["*"]
             }
+            EOP
         }
       ]
     }
