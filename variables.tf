@@ -4,9 +4,6 @@ variable "config" {
   type = object({
     stackset_name_prefix = optional(string, "lza-config-")
 
-    # the AWS account id for the mgmt (root) account
-    mgmt_account_id = string
-
     # The prefix added to the stacksets
     rule_groups = optional(map(object({
       associations = list(string)
