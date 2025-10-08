@@ -197,5 +197,45 @@ mock_provider "aws" {
       master_account_id = "123456789012"
     }
   }
+
+  # Failure! 0 passed, 1 failed.
+  # │ 
+  # │   with module.securityhub_notifications[0].module.lambda_function[0].aws_iam_role.lambda[0],
+  # │   on .terraform/modules/securityhub_notifications.lambda_function/iam.tf line 102, in resource "aws_iam_role" "lambda":
+  # │  102:   assume_role_policy    = data.aws_iam_policy_document.assume_role[0].json
+
+  # statement {
+  #   sid    = "AllowAccountRoot"
+  #   effect = "Allow"
+  #   principals {
+  #     type        = "AWS"
+  #     identifiers = [format("arn:aws:iam::%s:root", local.account_id)]
+  #   }
+  #   actions = [
+  #     "sns:Publish"
+  #   ]
+  #   resources = ["*"]
+  # }
+  mock_data "aws_iam_policy_document" {
+    defaults = {
+      assume_role = [
+        {
+          json: >
+            statement {
+              sid    = "AllowAccountRoot"
+              effect = "Allow"
+              principals {
+                type        = "AWS"
+                identifiers = [format("arn:aws:iam::%s:root", local.account_id)]
+              }
+              actions = [
+                "sns:Publish"
+              ]
+              resources = ["*"]
+            }
+        }
+      ]
+    }
+  }
 }
 
