@@ -31,7 +31,6 @@ variable "config" {
   })
   default = {
     rule_groups     = {}
-    mgmt_account_id = ""
   }
 }
 
