@@ -191,5 +191,11 @@ mock_provider "aws" {
       name = "eu-west-2"
     }
   }
+
+  mock_data "aws_organizations_organization" {
+    defaults = {
+      master_account_id = "123456789012"
+    }
+  }
 }
 
