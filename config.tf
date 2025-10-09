@@ -51,9 +51,10 @@ resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
     all_supported                 = true
     include_global_resource_types = true
     resource_types                = null
-    exclusion_by_resource_types {
-      resource_types = []
-    }
+    #  if all_supported is true, must be specify any exclusions
+    # exclusion_by_resource_types {
+    #   resource_types = []
+    # }
     recording_strategy {
       use_only = "ALL_SUPPORTED_RESOURCE_TYPES"
     }
@@ -61,6 +62,7 @@ resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
 
   recording_mode {
     recording_frequency = "CONTINUOUS"
+    # recording_mode_override {}
   }
 }
 
