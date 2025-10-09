@@ -83,7 +83,7 @@ resource "aws_config_delivery_channel" "foo" {
   name           = "appvia-lz-mgmt-delivery-channel"
   s3_bucket_name = format("aws-controltower-logs-%s-%s", local.logarchive_account_id, local.region)
   s3_key_prefix  = local.organization_id
-  sns_topic_arn  = aws_sns_topic.control_tower_config_delivery_sns_topic.arn
+  sns_topic_arn  = data.aws_sns_topic.control_tower_config_delivery_sns_topic.arn
 
   snapshot_delivery_properties {
     # default is TwentyFour_Hours; but this is the mgmt account
