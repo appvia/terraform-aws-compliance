@@ -61,7 +61,8 @@ resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
 
   recording_mode {
     recording_frequency     = "CONTINUOUS"
-    recording_mode_override = {}
+    recording_mode_override {
+    }
   }
 }
 
