@@ -47,7 +47,7 @@ resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
   name     = "appvia-lz-mgmt-recorder"
   role_arn = aws_iam_role.mgmt_config_recorder_role.arn
 
-  recording_grop {
+  recording_group {
     all_supported                 = true
     include_global_resource_types = true
     resource_types                = null
@@ -61,7 +61,7 @@ resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
 
   recording_mode {
     recording_frequency     = "CONTINUOUS"
-    recording_mode_override = null
+    recording_mode_override = {}
   }
 }
 
