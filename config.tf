@@ -75,15 +75,15 @@ resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
 # need to reuse the SNS topic already created by Control Tower in the audit account
 #   in the format "arn:aws:sns:eu-west-1:699561668334:aws-controltower-AllConfigNotifications"
 #  Need the ARN of the topic.
-data "aws_sns_topic" "control-tower-config-delivery-sns-topic" {
-  topic_name = "aws-controltower-AllConfigNotifications"
+data "aws_sns_topic" "control_tower_config_delivery_sns_topic" {
+  name = "aws-controltower-AllConfigNotifications"
 }
 
 resource "aws_config_delivery_channel" "foo" {
   name           = "appvia-lz-mgmt-delivery-channel"
   s3_bucket_name = format("aws-controltower-logs-%s-%s", local.logarchive_account_id, local.region)
   s3_key_prefix  = local.organization_id
-  sns_topic_arn  = aws_sns_topic.control-tower-config-delivery-sns-topic.arn
+  sns_topic_arn  = aws_sns_topic.control_tower_config_delivery_sns_topic.arn
 
   snapshot_delivery_properties {
     # default is TwentyFour_Hours; but this is the mgmt account
@@ -92,6 +92,30 @@ resource "aws_config_delivery_channel" "foo" {
   depends_on = [aws_config_configuration_recorder.mgmt_config_recorder]
 }
 
+
+# {
+#     "ConfigurationRecorders": [
+#         {
+#             "name": "aws-controltower-BaselineConfigRecorder",
+#             "roleARN": "arn:aws:iam::856708425195:role/aws-service-role/config.amazonaws.com/AWSServiceRoleForConfig",
+#             "recordingGroup": {
+#                 "allSupported": true,
+#                 "includeGlobalResourceTypes": true,
+#                 "resourceTypes": [],
+#                 "exclusionByResourceTypes": {
+#                     "resourceTypes": []
+#                 },
+#                 "recordingStrategy": {
+#                     "useOnly": "ALL_SUPPORTED_RESOURCE_TYPES"
+#                 }
+#             },
+#             "recordingMode": {
+#                 "recordingFrequency": "CONTINUOUS",
+#                 "recordingModeOverrides": []
+#             }
+#         }
+#     ]
+# }
 
 # AWS_PROFILE=appvia-lz-network aws configservice describe-delivery-channels
 # {
