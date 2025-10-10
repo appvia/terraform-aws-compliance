@@ -44,8 +44,6 @@ resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
     recording_frequency = "CONTINUOUS"
     # recording_mode_override {}
   }
-
-  tags = local.tags
 }
 
 # rather than creating a new bucket, we use the existing bucket from the logging account created by Control Tower
