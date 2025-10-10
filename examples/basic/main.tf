@@ -53,7 +53,7 @@ module "config_home" {
   source = "github.com/appvia/terraform-aws-compliance//modules/config?ref=fix/sa-603-pushing-aws-config-rules-to-mgmt"
 
   logarchive_account_id = "987654321012"
-  tags                  = local.tags
+  # tags                  = local.tags
 
   providers = {
     aws = aws.management_eu_west_2
@@ -65,7 +65,7 @@ module "config_us_east_1" {
 
   logarchive_account_id    = "987654321012"
   config_retention_in_days = 90
-  tags                     = local.tags
+  # tags                     = local.tags
 
   providers = {
     aws = aws.management_us_east_1
