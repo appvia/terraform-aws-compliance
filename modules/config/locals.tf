@@ -7,5 +7,6 @@ locals {
   tags = merge(var.tags, {})
 
   # using Organization - resolve the mgmt account id (it's only ever the one account in the Management OU)
-  mgmt_account_id       = data.aws_organizations_organization.this.master_account_id
+  logarchive_account_id = var.logarchive_account_id
+  organization_id = data.aws_organizations_organization.this.id
 }
