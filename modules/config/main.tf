@@ -19,6 +19,8 @@ resource "aws_iam_role" "mgmt_config_recorder_role" {
   assume_role_policy = data.aws_iam_policy_document.mgmt_config_recorder_policy.json
 
   tags = local.tags
+
+  provider = aws.mgmt
 }
 
 #  this AWS resources has no tags attribute
@@ -44,6 +46,8 @@ resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
     recording_frequency = "CONTINUOUS"
     # recording_mode_override {}
   }
+
+  provider = aws.mgmt
 }
 
 # rather than creating a new bucket, we use the existing bucket from the logging account created by Control Tower
@@ -56,6 +60,8 @@ resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
 #  Need the ARN of the topic.
 data "aws_sns_topic" "control_tower_config_delivery_sns_topic" {
   name = "aws-controltower-AllConfigNotifications"
+
+  provider = aws.audit
 }
 
 #  this AWS resources has no tags attribute
@@ -71,8 +77,12 @@ resource "aws_config_delivery_channel" "mgmt_config_delivery_channel" {
   }
 
   depends_on = [aws_config_configuration_recorder.mgmt_config_recorder]
+
+  provider = aws.mgmt
 }
 
 resource "aws_config_retention_configuration" "mgmt_config_retention" {
   retention_period_in_days = var.config_retention_in_days
+
+  provider = aws.mgmt
 }
