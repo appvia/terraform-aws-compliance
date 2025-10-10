@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "mgmt_config_recorder_policy" {
 }
 
 resource "aws_iam_role" "mgmt_config_recorder_role" {
-  name               = "appvia-lz-mgmt-awsconfig-recorder-role"
+  name               = format("appvia-lz-mgmt-awsconfig-recorder-%s-role", local.region)
   assume_role_policy = data.aws_iam_policy_document.mgmt_config_recorder_policy.json
 
   tags = local.tags
