@@ -56,7 +56,7 @@ module "config_home" {
   tags                  = local.tags
 
   providers = {
-    aws = aws.management_eu_west_1
+    aws = aws.management_eu_west_2
   }
 }
 
