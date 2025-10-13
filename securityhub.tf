@@ -1,23 +1,14 @@
 
 locals {
   ## The subscription for the standards
-  # standards_subscription = {
-  #   aws_foundational_best_practices = "arn:aws:securityhub:${local.region}::standards/aws-foundational-security-best-practices/v/1.0.0"
-  #   cis_v120                        = "arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0"
-  #   cis_v140                        = "arn:aws:securityhub:${local.region}::standards/cis-aws-foundations-benchmark/v/1.4.0"
-  #   nist_sp_800_53_rev5             = "arn:aws:securityhub:${local.region}::standards/nist-800-53/v/5.0.0"
-  #   pci_dss                         = "arn:aws:securityhub:${local.region}::standards/pci-dss/v/3.2.1"
-  #   warren                          = "arn:aws:securityhub:${local.region}::standards/aws-resource-tagging-standard/v/1.0.0"
-  # }
   standards_subscription = {
-    aws_foundational_best_practices = "arn:aws:securityhub:${local.region_wa}::standards/aws-foundational-security-best-practices/v/1.0.0"
+    aws_foundational_best_practices = "arn:aws:securityhub:${local.region}::standards/aws-foundational-security-best-practices/v/1.0.0"
     cis_v120                        = "arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0"
-    cis_v140                        = "arn:aws:securityhub:${local.region_wa}::standards/cis-aws-foundations-benchmark/v/1.4.0"
-    nist_sp_800_53_rev5             = "arn:aws:securityhub:${local.region_wa}::standards/nist-800-53/v/5.0.0"
-    pci_dss                         = "arn:aws:securityhub:${local.region_wa}::standards/pci-dss/v/3.2.1"
-    warren                          = "arn:aws:securityhub:${local.region_wa}::standards/aws-resource-tagging-standard/v/1.0.0"
+    cis_v140                        = "arn:aws:securityhub:${local.region}::standards/cis-aws-foundations-benchmark/v/1.4.0"
+    nist_sp_800_53_rev5             = "arn:aws:securityhub:${local.region}::standards/nist-800-53/v/5.0.0"
+    pci_dss                         = "arn:aws:securityhub:${local.region}::standards/pci-dss/v/3.2.1"
   }
-
+  
   ## A list of policy associations
   policy_associations_all = flatten([
     for policy_name, policy in var.securityhub.policies : [
