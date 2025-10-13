@@ -3,6 +3,7 @@ variable "config" {
   description = "Configuration for the securityhub organization managed rules"
   type = object({
     stackset_name_prefix = optional(string, "lza-config-")
+
     # The prefix added to the stacksets
     rule_groups = optional(map(object({
       associations = list(string)
