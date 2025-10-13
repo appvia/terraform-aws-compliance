@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "mgmt_config_recorder_policy" {
 }
 
 resource "aws_iam_role" "mgmt_config_recorder_role" {
-  name               = format("appvia-lz-mgmt-awsconfig-recorder-%s-role", local.region)
+  name               = format("lz-mgmt-awsconfig-recorder-%s-role", local.region)
   assume_role_policy = data.aws_iam_policy_document.mgmt_config_recorder_policy.json
 
   tags = local.tags
@@ -26,7 +26,7 @@ resource "aws_iam_role" "mgmt_config_recorder_role" {
 #  this AWS resources has no tags attribute
 resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
 
-  name     = "appvia-lz-mgmt-recorder"
+  name     = "lz-mgmt-recorder"
   role_arn = aws_iam_role.mgmt_config_recorder_role.arn
 
   recording_group {
