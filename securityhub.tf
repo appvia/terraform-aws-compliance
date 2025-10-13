@@ -1,13 +1,21 @@
 
 locals {
   ## The subscription for the standards
+  # standards_subscription = {
+  #   aws_foundational_best_practices = "arn:aws:securityhub:${local.region}::standards/aws-foundational-security-best-practices/v/1.0.0"
+  #   cis_v120                        = "arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0"
+  #   cis_v140                        = "arn:aws:securityhub:${local.region}::standards/cis-aws-foundations-benchmark/v/1.4.0"
+  #   nist_sp_800_53_rev5             = "arn:aws:securityhub:${local.region}::standards/nist-800-53/v/5.0.0"
+  #   pci_dss                         = "arn:aws:securityhub:${local.region}::standards/pci-dss/v/3.2.1"
+  #   warren                          = "arn:aws:securityhub:${local.region}::standards/aws-resource-tagging-standard/v/1.0.0"
+  # }
   standards_subscription = {
-    aws_foundational_best_practices = "arn:aws:securityhub:${local.region}::standards/aws-foundational-security-best-practices/v/1.0.0"
+    aws_foundational_best_practices = "arn:aws:securityhub:eu-west-1::standards/aws-foundational-security-best-practices/v/1.0.0"
     cis_v120                        = "arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0"
-    cis_v140                        = "arn:aws:securityhub:${local.region}::standards/cis-aws-foundations-benchmark/v/1.4.0"
-    nist_sp_800_53_rev5             = "arn:aws:securityhub:${local.region}::standards/nist-800-53/v/5.0.0"
-    pci_dss                         = "arn:aws:securityhub:${local.region}::standards/pci-dss/v/3.2.1"
-    warren                          = "arn:aws:securityhub:${local.region}::standards/aws-resource-tagging-standard/v/1.0.0"
+    cis_v140                        = "arn:aws:securityhub:eu-west-1::standards/cis-aws-foundations-benchmark/v/1.4.0"
+    nist_sp_800_53_rev5             = "arn:aws:securityhub:eu-west-1::standards/nist-800-53/v/5.0.0"
+    pci_dss                         = "arn:aws:securityhub:eu-west-1::standards/pci-dss/v/3.2.1"
+    warren                          = "arn:aws:securityhub:eu-west-1::standards/aws-resource-tagging-standard/v/1.0.0"
   }
 
   ## A list of policy associations
@@ -73,10 +81,10 @@ resource "aws_securityhub_configuration_policy" "current" {
     service_enabled = each.value.enable
 
     enabled_standard_arns = [
-      # for standard in each.value.policy.standard_arns : local.standards_subscription[standard]
-      "arn:aws:securityhub:eu-west-1::standards/aws-resource-tagging-standard/v/1.0.0",
-      "arn:aws:securityhub:eu-west-1::standards/aws-foundational-security-best-practices/v/1.0.0",
-      "arn:aws:securityhub:eu-west-1::standards/cis-aws-foundations-benchmark/v/1.4.0",
+      for standard in each.value.policy.standard_arns : local.standards_subscription[standard]
+      # "arn:aws:securityhub:eu-west-1::standards/aws-resource-tagging-standard/v/1.0.0",
+      # "arn:aws:securityhub:eu-west-1::standards/aws-foundational-security-best-practices/v/1.0.0",
+      # "arn:aws:securityhub:eu-west-1::standards/cis-aws-foundations-benchmark/v/1.4.0",
     ]
 
     security_controls_configuration {
