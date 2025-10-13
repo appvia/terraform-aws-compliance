@@ -73,7 +73,8 @@ resource "aws_securityhub_configuration_policy" "current" {
     service_enabled = each.value.enable
 
     enabled_standard_arns = [
-      for standard in each.value.policy.standard_arns : local.standards_subscription[standard]
+      # for standard in each.value.policy.standard_arns : local.standards_subscription[standard]
+      "arn:aws:securityhub:eu-west-1::standards/aws-resource-tagging-standard/v/1.0.0"
     ]
 
     security_controls_configuration {
