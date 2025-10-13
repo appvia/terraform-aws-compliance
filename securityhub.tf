@@ -8,7 +8,7 @@ locals {
     nist_sp_800_53_rev5             = "arn:aws:securityhub:${local.region}::standards/nist-800-53/v/5.0.0"
     pci_dss                         = "arn:aws:securityhub:${local.region}::standards/pci-dss/v/3.2.1"
   }
-  
+
   ## A list of policy associations
   policy_associations_all = flatten([
     for policy_name, policy in var.securityhub.policies : [
