@@ -48,7 +48,7 @@ resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
 
 #  this AWS resources has no tags attribute
 resource "aws_config_delivery_channel" "mgmt_config_delivery_channel" {
-  name           = "appvia-lz-mgmt-delivery-channel"
+  name           = "lz-mgmt-delivery-channel"
   s3_bucket_name = format("aws-controltower-logs-%s-%s", local.logarchive_account_id, local.region)
   s3_key_prefix  = local.organization_id
   sns_topic_arn  = var.control_tower_sns_topic_arn
