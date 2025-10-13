@@ -27,15 +27,15 @@ No modules.
 | [aws_iam_policy_document.mgmt_config_recorder_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_organizations_organization.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/organizations_organization) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
-| [aws_sns_topic.control_tower_config_delivery_sns_topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/sns_topic) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_config_retention_in_days"></a> [config\_retention\_in\_days](#input\_config\_retention\_in\_days) | The number of days to store config historical data (defaults to one year) | `number` | `2557` | no |
-| <a name="input_logarchive_account_id"></a> [logarchive\_account\_id](#input\_logarchive\_account\_id) | The AWS account id for the logarchive account created by Control Tower | `string` | `"abc123"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to the resources | `map(string)` | n/a | yes |
+| <a name="input_config_retention_in_days"></a> [config\_retention\_in\_days](#input\_config\_retention\_in\_days) | The number of days to store config historical data (defaults to one year) | `number` | `366` | no |
+| <a name="input_control_tower_sns_topic_arn"></a> [control\_tower\_sns\_topic\_arn](#input\_control\_tower\_sns\_topic\_arn) | The ARN of the SNS topic created by Control Tower for AWS notifications | `string` | n/a | yes |
+| <a name="input_logarchive_account_id"></a> [logarchive\_account\_id](#input\_logarchive\_account\_id) | The AWS account id for the logarchive account created by Control Tower | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to the resources | `map(string)` | `{}` | no |
 
 ## Outputs
 

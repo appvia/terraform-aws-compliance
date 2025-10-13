@@ -13,5 +13,10 @@ variable "logarchive_account_id" {
 variable "config_retention_in_days" {
   description = "The number of days to store config historical data (defaults to one year)"
   type        = number
-  default     = 2557
+  default     = 366
+}
+
+variable "control_tower_sns_topic_arn" {
+  description = "The ARN of the SNS topic created by Control Tower for AWS notifications"
+  type        = string
 }
