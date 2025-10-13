@@ -186,6 +186,12 @@ mock_provider "aws" {
     }
   }
 
+  mock_data "deployment_targets" {
+    defaults = {
+      accounts = ["345678901221"]
+    }
+  }
+
   mock_data "aws_caller_identity" {
     defaults = {
       account_id = "123456789012"
@@ -207,8 +213,9 @@ override_module {
   }
 }
 
-Override_data
-  target = deployment_targets.0.accounts.0
-  value = "345678901221"
-
-}
+# override_data {
+#   target = deployment_targets
+#   values = {
+#     accounts = ["345678901221"]
+#   }
+# }
