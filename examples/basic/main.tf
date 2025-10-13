@@ -52,15 +52,15 @@ module "guardduty_us_east_1" {
 module "config_home" {
   source = "github.com/appvia/terraform-aws-compliance//modules/config?ref=fix/sa-603-pushing-aws-config-rules-to-mgmt"
 
-  control_tower_sns_topic_arn = "arn:aws:sns:eu-west-1:6912345678933:aws-controltower-AllConfigNotifications"
-  logarchive_account_id = "987654321012"
-  tags                  = local.tags
+  control_tower_sns_topic_arn = "arn:aws:sns:eu-west-1:123456789033:aws-controltower-AllConfigNotifications"
+  logarchive_account_id       = "987654321012"
+  tags                        = local.tags
 }
 
 module "config_us_east_1" {
   source = "github.com/appvia/terraform-aws-compliance//modules/config?ref=fix/sa-603-pushing-aws-config-rules-to-mgmt"
 
-  control_tower_sns_topic_arn = "arn:aws:sns:eu-west-1:6912345678933:aws-controltower-AllConfigNotifications"
+  control_tower_sns_topic_arn = "arn:aws:sns:eu-west-1:123456789033:aws-controltower-AllConfigNotifications"
   logarchive_account_id       = "987654321012"
   config_retention_in_days    = 90
   tags                        = local.tags
