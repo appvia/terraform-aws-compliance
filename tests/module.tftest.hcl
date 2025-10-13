@@ -186,11 +186,11 @@ mock_provider "aws" {
     }
   }
 
-  mock_data "deployment_targets" {
-    defaults = {
-      accounts = ["345678901221"]
-    }
-  }
+  # mock_data "deployment_targets" {
+  #   defaults = {
+  #     accounts = ["345678901221"]
+  #   }
+  # }
 
   mock_data "aws_caller_identity" {
     defaults = {
@@ -202,6 +202,12 @@ mock_provider "aws" {
     defaults = {
       name   = "eu-west-2"
       region = "eu-west-2"
+    }
+  }
+
+  mock_data "aws_organizations_organization" {
+    defaults = {
+      master_account_id = "123456789012"
     }
   }
 }
