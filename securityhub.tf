@@ -73,9 +73,6 @@ resource "aws_securityhub_configuration_policy" "current" {
 
     enabled_standard_arns = [
       for standard in each.value.policy.standard_arns : local.standards_subscription[standard]
-      # "arn:aws:securityhub:eu-west-1::standards/aws-resource-tagging-standard/v/1.0.0",
-      # "arn:aws:securityhub:eu-west-1::standards/aws-foundational-security-best-practices/v/1.0.0",
-      # "arn:aws:securityhub:eu-west-1::standards/cis-aws-foundations-benchmark/v/1.4.0",
     ]
 
     security_controls_configuration {
