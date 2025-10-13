@@ -76,6 +76,7 @@ resource "aws_securityhub_configuration_policy" "current" {
       "arn:aws:securityhub:${local.region}::standards/aws-foundational-security-best-practices/v/1.0.0",
       "arn:aws:securityhub:${local.region}::standards/cis-aws-foundations-benchmark/v/1.4.0",
       "arn:aws:securityhub:${local.region}::standards/nist-800-53/v/5.0.0",
+      "arn:aws:securityhub:${local.region}::standards/pci-dss/v/3.2.1",
     ]
 
     security_controls_configuration {
