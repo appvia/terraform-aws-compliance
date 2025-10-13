@@ -206,4 +206,3 @@ override_module {
     sns_topic_arn = "arn:aws:sns:eu-west-2:123456789012:appvia-notifications"
   }
 }
-
