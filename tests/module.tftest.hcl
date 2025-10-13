@@ -192,12 +192,6 @@ mock_provider "aws" {
     }
   }
 
-  mock_data "aws_organizations_organization" {
-    defaults = {
-      master_account_id = "123456789012"
-    }
-  }
-
   # Failure! 0 passed, 1 failed.
   # │ 
   # │   with module.securityhub_notifications[0].module.lambda_function[0].aws_iam_role.lambda[0],
@@ -216,27 +210,27 @@ mock_provider "aws" {
   #   ]
   #   resources = ["*"]
   # }
-  mock_data "aws_iam_policy_document" {
-    defaults = {
-      assume_role = [
-        {
-          json = <<EOP
-            statement {
-              sid    = "AllowAccountRoot"
-              effect = "Allow"
-              principals {
-                type        = "AWS"
-                identifiers = ["arn:aws:iam::123456789012:root"]
-              }
-              actions = [
-                "sns:Publish"
-              ]
-              resources = ["*"]
-            }
-            EOP
-        }
-      ]
-    }
-  }
+  # mock_data "aws_iam_policy_document" {
+  #   defaults = {
+  #     assume_role = [
+  #       {
+  #         json = <<EOP
+  #           statement {
+  #             sid    = "AllowAccountRoot"
+  #             effect = "Allow"
+  #             principals {
+  #               type        = "AWS"
+  #               identifiers = ["arn:aws:iam::123456789012:root"]
+  #             }
+  #             actions = [
+  #               "sns:Publish"
+  #             ]
+  #             resources = ["*"]
+  #           }
+  #           EOP
+  #       }
+  #     ]
+  #   }
+  # }
 }
 
