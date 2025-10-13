@@ -57,7 +57,7 @@ module "config_home" {
 
   providers = {
     aws.audit = aws.audit_eu_west_2
-    aws.mgmt  = aws.management_eu_west_2
+    aws       = aws.management_eu_west_2
   }
 }
 
@@ -70,7 +70,7 @@ module "config_us_east_1" {
 
   providers = {
     aws.audit = aws.audit_eu_west_2
-    aws.mgmt  = aws.management_us_east_1
+    aws.      = aws.management_us_east_1
   }
 }
 
