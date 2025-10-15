@@ -11,4 +11,6 @@ locals {
 
   # capture the Organization - to then resolve the mgmt account id in locals
   organization_id = data.aws_organizations_organization.this.id
+
+  home_region = var.home_region
 }

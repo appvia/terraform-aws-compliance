@@ -20,3 +20,12 @@ variable "control_tower_sns_topic_arn" {
   description = "The ARN of the SNS topic created by Control Tower for AWS notifications"
   type        = string
 }
+
+variable "home_region" {
+  description = "The home Region in which Control Tower created the Config S3 buckiet (namely, in logarchive account"
+  type        = string
+  validation {
+    condition     = can(regex("^\\D\\D-\\D+-\\d$", var.home_region))
+    error_message = "Region must be in the form xx-xxxx-x, e.g., eu-west-1"
+  }
+}
