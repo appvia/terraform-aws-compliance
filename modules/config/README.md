@@ -34,6 +34,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_config_retention_in_days"></a> [config\_retention\_in\_days](#input\_config\_retention\_in\_days) | The number of days to store config historical data (defaults to one year) | `number` | `366` | no |
 | <a name="input_control_tower_sns_topic_arn"></a> [control\_tower\_sns\_topic\_arn](#input\_control\_tower\_sns\_topic\_arn) | The ARN of the SNS topic created by Control Tower for AWS notifications | `string` | n/a | yes |
+| <a name="input_home_region"></a> [home\_region](#input\_home\_region) | The home Region in which Control Tower created the Config S3 buckiet (namely, in logarchive account | `string` | n/a | yes |
 | <a name="input_logarchive_account_id"></a> [logarchive\_account\_id](#input\_logarchive\_account\_id) | The AWS account id for the logarchive account created by Control Tower | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to the resources | `map(string)` | `{}` | no |
 
