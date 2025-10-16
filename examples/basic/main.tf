@@ -110,7 +110,7 @@ module "config_home" {
   logarchive_account_id       = "987654321012"
   tags                        = local.tags
   home_region                 = local.home_region
-  config = local.config
+  config                      = local.config
 }
 
 module "config_us_east_1" {
@@ -121,7 +121,7 @@ module "config_us_east_1" {
   config_retention_in_days    = 90
   tags                        = local.tags
   home_region                 = local.home_region
-  config = local.config
+  config                      = local.config
 }
 
 module "compliance" {
