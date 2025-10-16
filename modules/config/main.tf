@@ -76,7 +76,7 @@ resource "aws_cloudformation_stack" "mgmt_config_rules_cloudformation_stack" {
 
   name   = format("%s%s", var.config.stackset_name_prefix, lower(each.key))
   region = try(each.value.enabled_regions, null)
-  template_body = templatefile("${path.root}/assets/cloudformation/config.yaml", {
+  template_body = templatefile("../../assets/cloudformation/config.yaml", {
     "description"     = each.value.description
     "rule_group_name" = each.key
     "rules"           = each.value.rules
