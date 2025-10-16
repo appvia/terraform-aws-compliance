@@ -9,8 +9,5 @@ locals {
   ## used to resovle the target S3 bucket for Config data
   logarchive_account_id = var.logarchive_account_id
 
-  # capture the Organization - to then resolve the mgmt account id in locals
-  organization_id = data.aws_organizations_organization.this.id
-
   home_region = var.home_region
 }
