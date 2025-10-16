@@ -17,163 +17,6 @@ locals {
     Product     = "LandingZone"
     Provisioner = "Terraform"
   }
-}
-
-## Find the guardduty detector if it exists
-data "aws_guardduty_detector" "guardduty" {
-  provider = aws.audit_eu_west_2
-}
-
-module "guardduty_home" {
-  source = "../../modules/guardduty"
-
-  auto_enable_mode             = "ALL"
-  finding_publishing_frequency = "FIFTEEN_MINUTES"
-  guardduty_detector_id        = data.aws_guardduty_detector.guardduty.id
-  tags                         = local.tags
-
-  providers = {
-    aws = aws.audit_eu_west_2
-  }
-}
-
-module "guardduty_us_east_1" {
-  source = "../../modules/guardduty"
-
-  auto_enable_mode             = "ALL"
-  finding_publishing_frequency = "FIFTEEN_MINUTES"
-  tags                         = local.tags
-
-  providers = {
-    aws = aws.audit_us_east_1
-  }
-}
-
-module "config_home" {
-  source = "../../modules/config"
-
-  control_tower_sns_topic_arn = "arn:aws:sns:eu-west-1:123456789033:aws-controltower-AllConfigNotifications"
-  logarchive_account_id       = "987654321012"
-  tags                        = local.tags
-  home_region                 = "eu-west-2"
-  config = { rule_groups = {
-    root = {
-      description = "Common managed rules distribued to all accounts"
-      associations = [
-        "r-h53v"
-      ]
-
-      rules = {
-        "managed-resource-tagging" : {
-          description = "Validate the resource tags"
-          resource_types : [
-            "AWS::ACM::Certificate",
-            "AWS::CloudFront::Distribution",
-            "AWS::CloudFront::StreamingDistribution",
-            "AWS::DynamoDB::Table",
-            "AWS::EC2::Instance",
-            "AWS::EC2::VPC",
-            "AWS::EC2::Volume",
-            "AWS::ECR::PublicRepository",
-            "AWS::EC2::NatGateway",
-            "AWS::ECR::Repository",
-            "AWS::ECS::Cluster",
-            "AWS::EFS::FileSystem",
-            "AWS::EKS::Cluster",
-            "AWS::ElasticLoadBalancingV2::LoadBalancer",
-            "AWS::Elasticsearch::Domain",
-            "AWS::Kinesis::Stream",
-            "AWS::Kinesis::StreamConsumer",
-            "AWS::RDS::DBCluster",
-            "AWS::RDS::DBInstance",
-            "AWS::RDS::DBSnapshot",
-            "AWS::Redshift::Cluster",
-            "AWS::Route53::HostedZone",
-            "AWS::S3::Bucket",
-          ]
-          identifier : "REQUIRED_TAGS"
-          inputParameters = {
-            tag1Key = "Product"
-            tag2Key = "Owner"
-            tag3Key = "Environment"
-            tag4Key = "GitRepo"
-          }
-          mode = "DETECTIVE"
-          # One_Hour | Three_Hours | Six_Hours | Twelve_Hours | TwentyFour_Hours
-          max_execution_frequency : 24
-        }
-      }
-  } } }
-}
-
-module "config_us_east_1" {
-  source = "../../modules/config"
-
-  control_tower_sns_topic_arn = "arn:aws:sns:eu-west-1:123456789033:aws-controltower-AllConfigNotifications"
-  logarchive_account_id       = "987654321012"
-  config_retention_in_days    = 90
-  tags                        = local.tags
-  home_region                 = "eu-west-2"
-  config = { rule_groups = {
-    root = {
-      description = "Common managed rules distribued to all accounts"
-      associations = [
-        "r-h53v"
-      ]
-
-      rules = {
-        "managed-resource-tagging" : {
-          description = "Validate the resource tags"
-          resource_types : [
-            "AWS::ACM::Certificate",
-            "AWS::CloudFront::Distribution",
-            "AWS::CloudFront::StreamingDistribution",
-            "AWS::DynamoDB::Table",
-            "AWS::EC2::Instance",
-            "AWS::EC2::VPC",
-            "AWS::EC2::Volume",
-            "AWS::ECR::PublicRepository",
-            "AWS::EC2::NatGateway",
-            "AWS::ECR::Repository",
-            "AWS::ECS::Cluster",
-            "AWS::EFS::FileSystem",
-            "AWS::EKS::Cluster",
-            "AWS::ElasticLoadBalancingV2::LoadBalancer",
-            "AWS::Elasticsearch::Domain",
-            "AWS::Kinesis::Stream",
-            "AWS::Kinesis::StreamConsumer",
-            "AWS::RDS::DBCluster",
-            "AWS::RDS::DBInstance",
-            "AWS::RDS::DBSnapshot",
-            "AWS::Redshift::Cluster",
-            "AWS::Route53::HostedZone",
-            "AWS::S3::Bucket",
-          ]
-          identifier : "REQUIRED_TAGS"
-          inputParameters = {
-            tag1Key = "Product"
-            tag2Key = "Owner"
-            tag3Key = "Environment"
-            tag4Key = "GitRepo"
-          }
-          mode = "DETECTIVE"
-          # One_Hour | Three_Hours | Six_Hours | Twelve_Hours | TwentyFour_Hours
-          max_execution_frequency : 24
-        }
-      }
-  } } }
-}
-
-module "compliance" {
-  source = "../.."
-
-  region = "eu-west-2"
-
-  notifications = {
-    slack = {
-      webhook_url = "https://hooks"
-    }
-  }
 
   config = {
     rule_groups = {
@@ -226,6 +69,73 @@ module "compliance" {
       }
     }
   }
+
+  home_region = "eu-west-2"
+}
+
+## Find the guardduty detector if it exists
+data "aws_guardduty_detector" "guardduty" {
+  provider = aws.audit_eu_west_2
+}
+
+module "guardduty_home" {
+  source = "../../modules/guardduty"
+
+  auto_enable_mode             = "ALL"
+  finding_publishing_frequency = "FIFTEEN_MINUTES"
+  guardduty_detector_id        = data.aws_guardduty_detector.guardduty.id
+  tags                         = local.tags
+
+  providers = {
+    aws = aws.audit_eu_west_2
+  }
+}
+
+module "guardduty_us_east_1" {
+  source = "../../modules/guardduty"
+
+  auto_enable_mode             = "ALL"
+  finding_publishing_frequency = "FIFTEEN_MINUTES"
+  tags                         = local.tags
+
+  providers = {
+    aws = aws.audit_us_east_1
+  }
+}
+
+module "config_home" {
+  source = "../../modules/config"
+
+  control_tower_sns_topic_arn = "arn:aws:sns:eu-west-1:123456789033:aws-controltower-AllConfigNotifications"
+  logarchive_account_id       = "987654321012"
+  tags                        = local.tags
+  home_region                 = local.home_region
+  config = local.config
+}
+
+module "config_us_east_1" {
+  source = "../../modules/config"
+
+  control_tower_sns_topic_arn = "arn:aws:sns:eu-west-1:123456789033:aws-controltower-AllConfigNotifications"
+  logarchive_account_id       = "987654321012"
+  config_retention_in_days    = 90
+  tags                        = local.tags
+  home_region                 = local.home_region
+  config = local.config
+}
+
+module "compliance" {
+  source = "../.."
+
+  region = "eu-west-2"
+
+  notifications = {
+    slack = {
+      webhook_url = "https://hooks"
+    }
+  }
+
+  config = local.config
 
   tags = local.tags
 
