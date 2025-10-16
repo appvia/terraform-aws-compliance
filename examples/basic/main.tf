@@ -56,8 +56,54 @@ module "config_home" {
   logarchive_account_id       = "987654321012"
   tags                        = local.tags
   home_region                 = "eu-west-2"
-  config = { default = {
-  rule_groups = {} } }
+  config = { rule_groups = {
+    root = {
+      description = "Common managed rules distribued to all accounts"
+      associations = [
+        "r-h53v"
+      ]
+
+      rules = {
+        "managed-resource-tagging" : {
+          description = "Validate the resource tags"
+          resource_types : [
+            "AWS::ACM::Certificate",
+            "AWS::CloudFront::Distribution",
+            "AWS::CloudFront::StreamingDistribution",
+            "AWS::DynamoDB::Table",
+            "AWS::EC2::Instance",
+            "AWS::EC2::VPC",
+            "AWS::EC2::Volume",
+            "AWS::ECR::PublicRepository",
+            "AWS::EC2::NatGateway",
+            "AWS::ECR::Repository",
+            "AWS::ECS::Cluster",
+            "AWS::EFS::FileSystem",
+            "AWS::EKS::Cluster",
+            "AWS::ElasticLoadBalancingV2::LoadBalancer",
+            "AWS::Elasticsearch::Domain",
+            "AWS::Kinesis::Stream",
+            "AWS::Kinesis::StreamConsumer",
+            "AWS::RDS::DBCluster",
+            "AWS::RDS::DBInstance",
+            "AWS::RDS::DBSnapshot",
+            "AWS::Redshift::Cluster",
+            "AWS::Route53::HostedZone",
+            "AWS::S3::Bucket",
+          ]
+          identifier : "REQUIRED_TAGS"
+          inputParameters = {
+            tag1Key = "Product"
+            tag2Key = "Owner"
+            tag3Key = "Environment"
+            tag4Key = "GitRepo"
+          }
+          mode = "DETECTIVE"
+          # One_Hour | Three_Hours | Six_Hours | Twelve_Hours | TwentyFour_Hours
+          max_execution_frequency : 24
+        }
+      }
+  } } }
 }
 
 module "config_us_east_1" {
@@ -68,8 +114,54 @@ module "config_us_east_1" {
   config_retention_in_days    = 90
   tags                        = local.tags
   home_region                 = "eu-west-2"
-  config = { default = {
-  rule_groups = {} } }
+  config = { rule_groups = {
+    root = {
+      description = "Common managed rules distribued to all accounts"
+      associations = [
+        "r-h53v"
+      ]
+
+      rules = {
+        "managed-resource-tagging" : {
+          description = "Validate the resource tags"
+          resource_types : [
+            "AWS::ACM::Certificate",
+            "AWS::CloudFront::Distribution",
+            "AWS::CloudFront::StreamingDistribution",
+            "AWS::DynamoDB::Table",
+            "AWS::EC2::Instance",
+            "AWS::EC2::VPC",
+            "AWS::EC2::Volume",
+            "AWS::ECR::PublicRepository",
+            "AWS::EC2::NatGateway",
+            "AWS::ECR::Repository",
+            "AWS::ECS::Cluster",
+            "AWS::EFS::FileSystem",
+            "AWS::EKS::Cluster",
+            "AWS::ElasticLoadBalancingV2::LoadBalancer",
+            "AWS::Elasticsearch::Domain",
+            "AWS::Kinesis::Stream",
+            "AWS::Kinesis::StreamConsumer",
+            "AWS::RDS::DBCluster",
+            "AWS::RDS::DBInstance",
+            "AWS::RDS::DBSnapshot",
+            "AWS::Redshift::Cluster",
+            "AWS::Route53::HostedZone",
+            "AWS::S3::Bucket",
+          ]
+          identifier : "REQUIRED_TAGS"
+          inputParameters = {
+            tag1Key = "Product"
+            tag2Key = "Owner"
+            tag3Key = "Environment"
+            tag4Key = "GitRepo"
+          }
+          mode = "DETECTIVE"
+          # One_Hour | Three_Hours | Six_Hours | Twelve_Hours | TwentyFour_Hours
+          max_execution_frequency : 24
+        }
+      }
+  } } }
 }
 
 module "compliance" {
