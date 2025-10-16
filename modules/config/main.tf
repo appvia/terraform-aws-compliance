@@ -46,6 +46,12 @@ resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
   }
 }
 
+resource "aws_config_configuration_recorder_status" "mgmt_config_recorder_status" {
+  name       = aws_config_configuration_recorder.mgmt_config_recorder.name
+  is_enabled = true
+  depends_on = [aws_config_delivery_channel.mgmt_config_recorder]
+}
+
 #  this AWS resources has no tags attribute
 resource "aws_config_delivery_channel" "mgmt_config_delivery_channel" {
   name           = "lz-mgmt-delivery-channel"
@@ -63,4 +69,16 @@ resource "aws_config_delivery_channel" "mgmt_config_delivery_channel" {
 
 resource "aws_config_retention_configuration" "mgmt_config_retention" {
   retention_period_in_days = var.config_retention_in_days
+}
+
+resource "aws_cloudformation_stack" "mgmt_config_rules_cloudformation_stack" {
+  for_each = var.config.rule_groups
+
+  name   = format("%s%s", var.config.stackset_name_prefix, lower(each.key))
+  region = try(each.value.enabled_regions, null)
+  template_body = templatefile("${path.module}/assets/cloudformation/config.yaml", {
+    "description"     = each.value.description
+    "rule_group_name" = each.key
+    "rules"           = each.value.rules
+  })
 }
