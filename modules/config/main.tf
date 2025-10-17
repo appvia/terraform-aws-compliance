@@ -75,10 +75,12 @@ resource "aws_cloudformation_stack" "mgmt_config_rules_cloudformation_stack" {
   for_each = var.config.rule_groups
 
   name   = format("%s%s", var.config.stackset_name_prefix, lower(each.key))
-  region = try(each.value.enabled_regions, null)
+  region = local.region
   template_body = templatefile("${path.module}/../../assets/cloudformation/config.yaml", {
     "description"     = each.value.description
     "rule_group_name" = each.key
     "rules"           = each.value.rules
   })
+
+  depends_on = [aws_config_configuration_recorder_status.mgmt_config_recorder_status]
 }
