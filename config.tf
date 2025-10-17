@@ -11,7 +11,6 @@ module "config_rule_groups" {
   enabled_regions      = try(each.value.enabled_regions, null)
   exclude_accounts     = each.value.exclude_accounts
   organizational_units = each.value.associations
-  accounts             = [local.mgmt_account_id]
   permission_model     = "SERVICE_MANAGED"
   tags                 = local.tags
 

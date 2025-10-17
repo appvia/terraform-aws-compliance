@@ -17,67 +17,6 @@ locals {
     Product     = "LandingZone"
     Provisioner = "Terraform"
   }
-}
-
-## Find the guardduty detector if it exists
-data "aws_guardduty_detector" "guardduty" {
-  provider = aws.audit_eu_west_2
-}
-
-module "guardduty_home" {
-  source = "../../modules/guardduty"
-
-  auto_enable_mode             = "ALL"
-  finding_publishing_frequency = "FIFTEEN_MINUTES"
-  guardduty_detector_id        = data.aws_guardduty_detector.guardduty.id
-  tags                         = local.tags
-
-  providers = {
-    aws = aws.audit_eu_west_2
-  }
-}
-
-module "guardduty_us_east_1" {
-  source = "../../modules/guardduty"
-
-  auto_enable_mode             = "ALL"
-  finding_publishing_frequency = "FIFTEEN_MINUTES"
-  tags                         = local.tags
-
-  providers = {
-    aws = aws.audit_us_east_1
-  }
-}
-
-module "config_home" {
-  source = "../../modules/config"
-
-  control_tower_sns_topic_arn = "arn:aws:sns:eu-west-1:123456789033:aws-controltower-AllConfigNotifications"
-  logarchive_account_id       = "987654321012"
-  tags                        = local.tags
-  home_region                 = "eu-west-2"
-}
-
-module "config_us_east_1" {
-  source = "../../modules/config"
-
-  control_tower_sns_topic_arn = "arn:aws:sns:eu-west-1:123456789033:aws-controltower-AllConfigNotifications"
-  logarchive_account_id       = "987654321012"
-  config_retention_in_days    = 90
-  tags                        = local.tags
-  home_region                 = "eu-west-2"
-}
-
-module "compliance" {
-  source = "../.."
-
-  region = "eu-west-2"
-
-  notifications = {
-    slack = {
-      webhook_url = "https://hooks"
-    }
-  }
 
   config = {
     rule_groups = {
@@ -130,6 +69,73 @@ module "compliance" {
       }
     }
   }
+
+  home_region = "eu-west-2"
+}
+
+## Find the guardduty detector if it exists
+data "aws_guardduty_detector" "guardduty" {
+  provider = aws.audit_eu_west_2
+}
+
+module "guardduty_home" {
+  source = "../../modules/guardduty"
+
+  auto_enable_mode             = "ALL"
+  finding_publishing_frequency = "FIFTEEN_MINUTES"
+  guardduty_detector_id        = data.aws_guardduty_detector.guardduty.id
+  tags                         = local.tags
+
+  providers = {
+    aws = aws.audit_eu_west_2
+  }
+}
+
+module "guardduty_us_east_1" {
+  source = "../../modules/guardduty"
+
+  auto_enable_mode             = "ALL"
+  finding_publishing_frequency = "FIFTEEN_MINUTES"
+  tags                         = local.tags
+
+  providers = {
+    aws = aws.audit_us_east_1
+  }
+}
+
+module "config_home" {
+  source = "../../modules/config"
+
+  control_tower_sns_topic_arn = "arn:aws:sns:eu-west-1:123456789033:aws-controltower-AllConfigNotifications"
+  logarchive_account_id       = "987654321012"
+  tags                        = local.tags
+  home_region                 = local.home_region
+  config                      = local.config
+}
+
+module "config_us_east_1" {
+  source = "../../modules/config"
+
+  control_tower_sns_topic_arn = "arn:aws:sns:eu-west-1:123456789033:aws-controltower-AllConfigNotifications"
+  logarchive_account_id       = "987654321012"
+  config_retention_in_days    = 90
+  tags                        = local.tags
+  home_region                 = local.home_region
+  config                      = local.config
+}
+
+module "compliance" {
+  source = "../.."
+
+  region = "eu-west-2"
+
+  notifications = {
+    slack = {
+      webhook_url = "https://hooks"
+    }
+  }
+
+  config = local.config
 
   tags = local.tags
 
