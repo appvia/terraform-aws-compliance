@@ -4,9 +4,9 @@ locals {
   standards_subscription = {
     aws_foundational_best_practices = "arn:aws:securityhub:eu-west-1::standards/aws-foundational-security-best-practices/v/1.0.0"
     cis_v120                        = "arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0"
-    cis_v140                        = "arn:aws:securityhub:${local.region}::standards/cis-aws-foundations-benchmark/v/1.4.0"
-    nist_sp_800_53_rev5             = "arn:aws:securityhub:${local.region}::standards/nist-800-53/v/5.0.0"
-    pci_dss                         = "arn:aws:securityhub:${local.region}::standards/pci-dss/v/3.2.1"
+    cis_v140                        = "arn:aws:securityhub:eu-west-1::standards/cis-aws-foundations-benchmark/v/1.4.0"
+    nist_sp_800_53_rev5             = "arn:aws:securityhub:eu-west-1::standards/nist-800-53/v/5.0.0"
+    pci_dss                         = "arn:aws:securityhub:eu-west-1::standards/pci-dss/v/3.2.1"
   }
 
   ## A list of policy associations
