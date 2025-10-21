@@ -72,7 +72,9 @@ resource "aws_securityhub_configuration_policy" "current" {
     service_enabled = each.value.enable
 
     enabled_standard_arns = [
-      for standard in each.value.policy.standard_arns : local.standards_subscription[standard]
+      "arn:aws:securityhub:eu-west-1::standards/cis-aws-foundations-benchmark/v/1.4.0",
+      "arn:aws:securityhub:eu-west-1::standards/nist-800-53/v/5.0.0",
+      "arn:aws:securityhub:eu-west-1::standards/pci-dss/v/3.2.1"
     ]
 
     security_controls_configuration {
