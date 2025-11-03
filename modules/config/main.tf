@@ -23,7 +23,7 @@ resource "aws_iam_role" "mgmt_config_recorder_role" {
 
 resource "aws_iam_role_policy_attachment" "mgmt_config_recorder_policy_attachments" {
   for_each   = toset(local.config_recorder_role_policies)
-  role       = aws_iam_role.config_recorder_role.name
+  role       = aws_iam_role.mgmt_config_recorder_role.name
   policy_arn = each.value
 }
 
