@@ -13,4 +13,9 @@ locals {
   organization_id = data.aws_organizations_organization.this.id
 
   home_region = var.home_region
+
+  config_recorder_role_policies = [
+    "arn:aws:iam::aws:policy/service-role/AWS_ConfigRole",
+    "arn:aws:iam::aws:policy/ReadOnlyAccess"
+  ]
 }

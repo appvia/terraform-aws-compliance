@@ -21,6 +21,12 @@ resource "aws_iam_role" "mgmt_config_recorder_role" {
   tags = local.tags
 }
 
+resource "aws_iam_role_policy_attachment" "mgmt_config_recorder_policy_attachments" {
+  for_each   = toset(local.config_recorder_role_policies)
+  role       = aws_iam_role.mgmt_config_recorder_role.name
+  policy_arn = each.value
+}
+
 #  this AWS resources has no tags attribute
 resource "aws_config_configuration_recorder" "mgmt_config_recorder" {
 
