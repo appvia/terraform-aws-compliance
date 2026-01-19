@@ -47,7 +47,7 @@ locals {
 module "securityhub_notifications" {
   count   = var.securityhub.notifications.enable ? 1 : 0
   source  = "appvia/notify/aws"
-  version = "0.1.2"
+  version = "0.1.3"
 
   allowed_aws_services           = ["events.amazonaws.com", "lambda.amazonaws.com"]
   cloudwatch_log_group_retention = 1
