@@ -1,7 +1,7 @@
 
 locals {
   ## Determine if the macie service is managed by the landing zone
-  macie_enabled = var.macie != null
+  macie_enabled = try(var.macie.enable, false)
 }
 
 ## Provision the stackset to enable the macie service across all the accounts
@@ -10,9 +10,11 @@ module "macie" {
   source  = "appvia/stackset/aws"
   version = "0.2.6"
 
-  name             = try(var.macie.stackset_name, null)
+  name             = try(var.macie.stackset_name, "lz-macie-configuration")
   description      = "Configuration for the AWS macie service, configured by the landing zone"
+  call_as          = "DELEGATED_ADMIN"
   exclude_accounts = try(var.macie.exclude_accounts, null)
+  permission_model = "SERVICE_MANAGED"
   region           = var.region
   tags             = local.tags
 
