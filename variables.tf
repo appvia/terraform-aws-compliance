@@ -2,32 +2,32 @@
 variable "config" {
   description = "Configuration for the securityhub organization managed rules"
   type = object({
+    # The prefix added to the stacksets
     stackset_name_prefix = optional(string, "lza-config-")
-
     # The prefix added to the stacksets
     rule_groups = optional(map(object({
-      associations = list(string)
       # List of organizational units to deploy the managed rules
-      description = string
+      associations = list(string)
       # Description for the rule group
-      enabled_regions = optional(list(string), null)
+      description = string
       # List of regions to enable these rules
-      exclude_accounts = optional(list(string), null)
+      enabled_regions = optional(list(string), null)
       # The list of accounts to exclude from the organization managed rule
+      exclude_accounts = optional(list(string), null)
+      # The configuration for the securityhub organization managed rules
       rules = map(object({
-        description = string
         # The description of the organization managed rules
-        identifier = string
+        description = string
         # The identifier of the organization managed rule
-        inputs = optional(map(string), {})
+        identifier = string
         # The identifier of the organization managed rule scope
-        resource_types = list(string)
+        inputs = optional(map(string), {})
         # The list of resource types to scope the organization managed rule
-        max_execution_frequency = optional(string, null)
+        resource_types = list(string)
         # The max_execution_frequency of the rule
+        max_execution_frequency = optional(string, null)
       }))
     })), {})
-    # The configuration for the securityhub organization managed rules
   })
   default = {
     rule_groups = {}
