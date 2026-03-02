@@ -8,7 +8,7 @@ locals {
 module "macie" {
   count   = local.macie_enabled ? 1 : 0
   source  = "appvia/stackset/aws"
-  version = "0.2.7"
+  version = "0.2.9"
 
   name             = try(var.macie.stackset_name, "lz-macie-configuration")
   description      = "Configuration for the AWS macie service, configured by the landing zone"
