@@ -43,6 +43,7 @@ run "basic" {
           associations = [
             "r-h53v"
           ]
+          exclude_accounts = []
 
           rules = {
             "managed-resource-tagging" : {

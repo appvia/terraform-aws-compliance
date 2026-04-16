@@ -697,13 +697,13 @@ The `terraform-docs` utility is used to generate this README. Follow the below s
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.0.0 |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_region"></a> [region](#input\_region) | The region to deploy the resources | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to the resources | `map(string)` | n/a | yes |
 | <a name="input_access_analyzer"></a> [access\_analyzer](#input\_access\_analyzer) | Configuration for the AWS Access Analyzer service | <pre>object({<br/>    enable_unused_analyzer = optional(bool, true)<br/>    # Indicates whether to enable the unused AWS Access Analyzer service<br/>    unused_analyzer_name = optional(string, "lza-unused-access-analyzer")<br/>    # The name of the unused AWS Access Analyzer service<br/>    unused_access_age = optional(number, 90)<br/>  })</pre> | `null` | no |
@@ -716,7 +716,7 @@ The `terraform-docs` utility is used to generate this README. Follow the below s
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_inspector_resource_types"></a> [inspector\_resource\_types](#output\_inspector\_resource\_types) | A list of resources type to enable for inspector |
 | <a name="output_securityhub_policy_associations"></a> [securityhub\_policy\_associations](#output\_securityhub\_policy\_associations) | A map of policy associations by policy name |
 | <a name="output_securityhub_policy_configurations"></a> [securityhub\_policy\_configurations](#output\_securityhub\_policy\_configurations) | A map of all the policies to the central configuration arns |

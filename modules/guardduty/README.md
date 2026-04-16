@@ -2,13 +2,13 @@
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.0.0 |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to the resources | `map(string)` | n/a | yes |
 | <a name="input_auto_enable_mode"></a> [auto\_enable\_mode](#input\_auto\_enable\_mode) | Indicates whether to auto-enable the AWS GuardDuty service in all accounts | `string` | `"ALL"` | no |
 | <a name="input_create"></a> [create](#input\_create) | Indicates we should create a detector within the region | `bool` | `false` | no |
@@ -19,6 +19,6 @@
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_guardduty_detector_id"></a> [guardduty\_detector\_id](#output\_guardduty\_detector\_id) | The ID of the GuardDuty detector |
 <!-- END_TF_DOCS -->
