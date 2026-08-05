@@ -9,8 +9,15 @@ locals {
     pci_dss                         = "arn:aws:securityhub:${local.region}::standards/pci-dss/v/3.2.1"
   }
 
+
+  ## Only the aggregation region (aggregator.create = true) may manage organization-level
+  ## Security Hub config when using CENTRAL configuration - AWS rejects these calls from
+  ## linked regions. LOCAL configuration is managed independently per region.
+
+  manage_organization_configuration = var.securityhub.configuration.organization_configuration.configuration_type == "LOCAL" ? true : var.securityhub.aggregator.create
+
   ## A list of policy associations
-  policy_associations_all = flatten([
+  policy_associations_all = local.manage_organization_configuration ? flatten([
     for policy_name, policy in var.securityhub.policies : [
       for association in policy.associations : {
         account             = association.account_id
@@ -20,7 +27,7 @@ locals {
         target_id           = coalesce(association.account_id, association.organization_unit)
       }
     ] if length(policy.associations) > 0
-  ])
+  ]) : []
 
   ## A map of all the policy associations by policy name
   policy_associations_by_policy = {
@@ -49,6 +56,8 @@ resource "aws_securityhub_finding_aggregator" "current" {
 
 ## Provision the organization configuration
 resource "aws_securityhub_organization_configuration" "current" {
+  count = local.manage_organization_configuration ? 1 : 0
+
   auto_enable           = var.securityhub.configuration.auto_enable
   auto_enable_standards = var.securityhub.configuration.auto_enable_standards
 
@@ -63,7 +72,7 @@ resource "aws_securityhub_organization_configuration" "current" {
 
 ## Provision one or more configuration policies for the security hub
 resource "aws_securityhub_configuration_policy" "current" {
-  for_each = var.securityhub.policies
+  for_each = local.manage_organization_configuration ? var.securityhub.policies : {}
 
   name        = each.key
   description = each.value.description

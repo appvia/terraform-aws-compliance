@@ -223,3 +223,24 @@ module "compliance" {
     }
   }
 }
+
+module "compliance_us_east_1" {
+  source = "../.."
+
+  providers = {
+    aws = aws.audit_us_east_1
+  }
+
+  region = "us-east-1"
+
+  securityhub = {
+    notifications = {
+      enable     = true
+      severities = ["HIGH", "CRITICAL"]
+    }
+    # aggregator and configuration left at defaults (create = false, CENTRAL) —
+    # this region is linked, not the aggregation region
+  }
+
+  tags = local.tags
+}

@@ -390,6 +390,14 @@ module "compliance" {
 }
 ```
 
+### Multi-Region Central Configuration
+
+Security Hub central configuration requires exactly one region — the aggregation
+region — to own the finding aggregator and organization configuration. Invoke this
+module once per region, setting `aggregator.create = true` and `specified_regions`
+only in the aggregation region; leave `securityhub` at its default in every linked
+region so it does not attempt to manage organization-level config.
+
 ### **Use Cases**
 
 #### **1. Enterprise Security Program**

@@ -21,6 +21,11 @@ run "basic" {
     error_message = "The security hub findings event bridge rule target is not set to sns"
   }
 
+  assert {
+    condition     = length(aws_securityhub_organization_configuration.current) == 1
+    error_message = "The aggregation region must manage the organization configuration"
+  }
+
   variables {
     region = "eu-west-2"
 
@@ -171,6 +176,38 @@ run "basic" {
         }
       }
     }
+  }
+}
+
+run "securityhub_linked_region" {
+  command = plan
+
+  assert {
+    condition     = length(aws_securityhub_organization_configuration.current) == 0
+    error_message = "A linked region must not manage the organization configuration"
+  }
+
+  assert {
+    condition     = length(aws_securityhub_configuration_policy.current) == 0
+    error_message = "A linked region must not manage configuration policies"
+  }
+
+  assert {
+    condition     = length(aws_securityhub_configuration_policy_association.current) == 0
+    error_message = "A linked region must not manage configuration policy associations"
+  }
+
+  variables {
+    region = "us-east-1"
+
+    tags = {
+      Project     = "Demo"
+      Environment = "Development"
+      Terraform   = "true"
+    }
+
+    # securityhub omitted -> defaults to aggregator.create = false,
+    # configuration_type = "CENTRAL" (the linked-region case)
   }
 }
 
